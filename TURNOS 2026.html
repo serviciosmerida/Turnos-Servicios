@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Turnos · Servigrúas Mérida</title>
+<link rel="icon" type="image/png" sizes="512x512" href="logo3.png">
+<link rel="apple-touch-icon" sizes="512x512" href="logo3.png">
+<link rel="manifest" href="manifest_turnos.json">
+<meta name="theme-color" content="#1A1A1A">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black:      #1A1A1A;
+    --cream:      #F7F5F0;
+    --gray-light: #EEECE8;
+    --gray-mid:   #D5D2CB;
+    --gray-text:  #888580;
+    --olive:      #4A5240;
+    --olive-light:#EFF1EB;
+    --amber:      #C8860A;
+    --amber-light:#FFF8EC;
+    --red:        #B03A2E;
+    --red-light:  #FDECEA;
+    --blue:       #1F5C9E;
+    --blue-light: #EBF2FB;
+    --green:      #2E7D32;
+    --green-light:#EDF7EE;
+    --purple:     #6B3FA0;
+    --purple-light:#F3EEFB;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--black); min-height: 100vh; }
+
+  /* ── Topbar ── */
+  .topbar { background: var(--black); color: #fff; padding: .9rem 2rem; display: flex; align-items: center; justify-content: space-between; }
+  .topbar-brand { font-family: 'Bebas Neue', sans-serif; font-size: 1.25rem; letter-spacing: 2px; }
+  .topbar-brand span { color: var(--amber); }
+  .topbar-sub { font-size: .7rem; color: #aaa; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+
+  /* ── Tabs ── */
+  .tabs-bar {
+    background: #fff; border-bottom: 1.5px solid var(--gray-light);
+    display: flex; align-items: stretch; padding: 0 2rem; gap: 0;
+  }
+  .tab-btn {
+    padding: .9rem 1.5rem; font-size: .82rem; font-weight: 600;
+    border: none; background: none; cursor: pointer; color: var(--gray-text);
+    border-bottom: 3px solid transparent; margin-bottom: -1.5px;
+    transition: color .15s, border-color .15s; letter-spacing: .3px;
+  }
+  .tab-btn.active { color: var(--olive); border-bottom-color: var(--olive); }
+  .tab-btn:hover:not(.active) { color: var(--black); }
+
+  /* ── Nav bar (pestaña 1) ── */
+  .nav-bar {
+    background: #fff; border-bottom: 1.5px solid var(--gray-light);
+    padding: .85rem 2rem; display: flex; align-items: center; gap: 1rem;
+  }
+  .nav-arrow {
+    width: 34px; height: 34px; border-radius: 8px;
+    border: 1.5px solid var(--gray-mid); background: #fff;
+    cursor: pointer; font-size: 1.1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .15s, border-color .15s;
+  }
+  .nav-arrow:hover { background: var(--olive-light); border-color: var(--olive); }
+  .nav-month { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px; min-width: 220px; }
+  .nav-legend { margin-left: auto; display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: .4rem; font-size: .73rem; color: var(--gray-text); }
+  .legend-dot { width: 9px; height: 9px; border-radius: 50%; }
+
+  /* ── Content ── */
+  .content { padding: 1.5rem 2rem 3rem; max-width: 860px; margin: 0 auto; }
+  .empty-month { text-align: center; padding: 4rem 2rem; color: var(--gray-text); font-size: .9rem; }
+
+  /* ── Weekend card ── */
+  .weekend-card { background: #fff; border-radius: 14px; border: 1.5px solid var(--gray-light); margin-bottom: 1.1rem; overflow: hidden; }
+  .wc-header { padding: .75rem 1.25rem; border-bottom: 1.5px solid var(--gray-light); background: var(--cream); display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .wc-dates { font-weight: 600; font-size: .88rem; color: var(--black); }
+  .wc-obs { font-size: .75rem; color: var(--red); font-style: italic; }
+  .wc-viernes-aviso { font-size: .73rem; color: var(--amber); font-weight: 600; background: var(--amber-light); padding: .2rem .65rem; border-radius: 20px; white-space: nowrap; }
+  .wc-body { display: grid; grid-template-columns: 1fr 1fr; }
+  .wc-cubre { padding: 1.1rem 1.25rem; border-right: 1.5px solid var(--gray-light); display: flex; flex-direction: column; gap: .3rem; }
+  .wc-cubre-label { font-size: .65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--olive); font-weight: 600; }
+  .wc-cubre-name { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; line-height: 1; color: var(--olive); }
+  .wc-cubre-detail { font-size: .73rem; color: var(--gray-text); }
+  .wc-rest { padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
+  .wc-rest-label { font-size: .65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-text); font-weight: 600; }
+  .pilot-row { display: flex; align-items: center; justify-content: space-between; gap: .5rem; }
+  .pilot-name { font-size: .82rem; font-weight: 600; color: var(--black); }
+  .pilot-badge { font-size: .7rem; font-weight: 500; padding: .2rem .65rem; border-radius: 20px; white-space: nowrap; }
+  .badge-sabado   { background: var(--blue-light); color: var(--blue); }
+  .badge-descanso { background: var(--gray-light);  color: var(--gray-text); }
+  .wc-next { padding: .5rem 1.25rem; border-top: 1.5px solid var(--gray-light); display: flex; align-items: center; gap: .5rem; background: var(--cream); }
+  .wc-next-label { font-size: .68rem; color: var(--gray-text); text-transform: uppercase; letter-spacing: 1px; }
+  .wc-next-name  { font-size: .78rem; font-weight: 700; color: var(--amber); }
+
+  /* ── Pestaña 2: Horarios semanales ── */
+  .week-nav-bar {
+    background: #fff; border-bottom: 1.5px solid var(--gray-light);
+    padding: .85rem 2rem; display: flex; align-items: center; gap: 1rem;
+  }
+  .week-label { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 2px; min-width: 280px; }
+
+  .week-grid {
+    display: grid;
+    grid-template-columns: 120px repeat(5, 1fr);
+    border: 1.5px solid var(--gray-light);
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    margin-bottom: 1.5rem;
+  }
+  .wg-cell {
+    padding: .65rem .85rem;
+    border-right: 1px solid var(--gray-light);
+    border-bottom: 1px solid var(--gray-light);
+    font-size: .8rem;
+  }
+  .wg-cell:nth-child(6n) { border-right: none; }
+  .wg-header {
+    background: var(--black); color: #fff;
+    font-size: .68rem; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 1px;
+    padding: .55rem .85rem;
+    display: flex; align-items: center;
+  }
+  .wg-header.day-col { justify-content: center; }
+  .wg-pilot-label {
+    background: var(--cream);
+    font-weight: 700; font-size: .78rem;
+    display: flex; align-items: center;
+    border-right: 1.5px solid var(--gray-mid);
+  }
+  .wg-cell.today-col { background: #fffdf5; }
+
+  .hour-badge {
+    display: inline-block;
+    font-size: .72rem; font-weight: 600;
+    padding: .18rem .55rem; border-radius: 20px;
+    white-space: nowrap;
+  }
+  .h-5pm  { background: var(--gray-light);  color: var(--gray-text); }
+  .h-6pm  { background: var(--blue-light);  color: var(--blue); }
+  .h-7pm  { background: var(--green-light); color: var(--green); }
+  .h-9pm  { background: var(--amber-light); color: var(--amber); }
+  .h-9pm-special { background: #FFF0E0; color: var(--red); font-weight: 700; }
+  .h-nocturno { background: var(--purple-light); color: var(--purple); }
+  .h-off  { background: var(--gray-light);  color: #bbb; font-style: italic; }
+
+  .week-note {
+    font-size: .75rem; color: var(--gray-text);
+    background: #fff; border: 1.5px solid var(--gray-light);
+    border-radius: 10px; padding: .75rem 1.1rem;
+    margin-bottom: 1rem;
+  }
+  .week-note strong { color: var(--black); }
+
+  .btn-pdf {
+    margin-left: auto;
+    background: var(--olive); color: #fff;
+    border: none; border-radius: 8px;
+    padding: .45rem 1rem; font-size: .78rem; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; gap: .4rem;
+    transition: background .15s; white-space: nowrap;
+  }
+  .btn-pdf:hover { background: #3a4132; }
+
+  @media print {
+    .topbar, .tabs-bar, .nav-bar, .week-nav-bar, .btn-pdf, .nav-legend, .legend { display: none !important; }
+    body { background: #fff; }
+    .content { padding: 0.5rem; max-width: 100% !important; }
+    #tab-0, #tab-1, #tab-2 { display: block !important; }
+    #tab-0.hide-print, #tab-1.hide-print, #tab-2.hide-print { display: none !important; }
+  }
+
+  /* ── Pestaña 3: Calendario ── */
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); border:1.5px solid var(--gray-mid); border-radius:14px; overflow:hidden; background:#fff; }
+  .cal-header { background:var(--black); color:#fff; text-align:center; padding:.55rem .25rem; font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
+  .cal-header.weekend { background:var(--olive); }
+  .cal-day { min-height:110px; border-right:1px solid var(--gray-light); border-bottom:1px solid var(--gray-light); padding:.4rem .45rem; }
+  .cal-day:nth-child(7n) { border-right:none; }
+  .cal-day.other-month { background:#F0EEE9; }
+  .cal-day.cal-today { background:#FFFBF0; }
+  .day-num { font-family:'Bebas Neue',sans-serif; font-size:1.15rem; line-height:1; color:var(--gray-text); margin-bottom:.3rem; }
+  .cal-day.cal-today .day-num { color:var(--amber); font-size:1.3rem; }
+  .cal-day.other-month .day-num { color:#ccc; }
+  .ev { font-size:.64rem; font-weight:600; border-radius:5px; padding:.18rem .35rem; margin-bottom:.2rem; line-height:1.3; word-break:break-word; }
+  .ev-9pm { background:var(--amber-light); color:var(--amber); border:1px solid var(--amber); }
+  .we-name { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; line-height:1; color:var(--olive); margin-bottom:.3rem; }
+  .we-pilot-row { display:flex; align-items:center; justify-content:space-between; gap:.25rem; margin-bottom:.15rem; }
+  .we-pilot-name { font-size:.65rem; font-weight:600; color:var(--black); }
+  .we-badge { font-size:.58rem; font-weight:600; padding:.12rem .4rem; border-radius:20px; white-space:nowrap; }
+  .badge-sabado   { background:var(--blue-light);  color:var(--blue); }
+  .badge-descansa { background:var(--gray-light);  color:var(--gray-text); }
+  .badge-turno    { background:var(--olive-light); color:var(--olive); }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>
+    <div class="topbar-brand">Servigrúas <span>Mérida</span></div>
+    <div class="topbar-sub">Control de turnos 2026</div>
+  </div>
+</div>
+
+<div class="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab(0)">📅 Fines de semana</button>
+  <button class="tab-btn"        onclick="switchTab(1)">🕐 Horarios semanales</button>
+  <button class="tab-btn"        onclick="switchTab(2)">📆 Calendario</button>
+</div>
+
+<!-- ══ PESTAÑA 1: Fines de semana ══ -->
+<div id="tab-0">
+  <div class="nav-bar">
+    <button class="nav-arrow" onclick="changeMonth(-1)">‹</button>
+    <div class="nav-month" id="nav-month-label"></div>
+    <button class="nav-arrow" onclick="changeMonth(1)">›</button>
+    <div class="nav-legend">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--olive)"></div>Fin de semana completo</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Sábado hasta 5PM</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-mid)"></div>Descansa</div>
+    </div>
+    <button class="btn-pdf" onclick="printTab(0)">🖨 Exportar PDF</button>
+  </div>
+  <div class="content" id="calendar-content"></div>
+</div>
+
+<!-- ══ PESTAÑA 3: Calendario ══ -->
+<div id="tab-2" style="display:none">
+  <div class="nav-bar">
+    <button class="nav-arrow" onclick="changeMonthCal(-1)">‹</button>
+    <div class="nav-month" id="cal-month-label"></div>
+    <button class="nav-arrow" onclick="changeMonthCal(1)">›</button>
+    <button class="btn-pdf" onclick="printTab(2)">🖨 Exportar PDF</button>
+  </div>
+  <div class="content" style="max-width:1100px">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:3px;color:var(--olive);margin-bottom:1rem" id="cal-month-title"></div>
+    <div class="cal-grid" id="cal-grid"></div>
+    <div class="legend" style="margin-top:1.2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+      <div class="legend-item"><div class="legend-dot" style="background:var(--olive-light);border:1px solid var(--olive);border-radius:3px;width:10px;height:10px"></div>Cubre fin de semana completo</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--blue-light);border:1px solid var(--blue);border-radius:3px;width:10px;height:10px"></div>Sábado hasta 5PM</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-light);border:1px solid var(--gray-mid);border-radius:3px;width:10px;height:10px"></div>Descansa</div>
+      <div class="legend-item"><div class="legend-dot" style="background:var(--amber-light);border:1px solid var(--amber);border-radius:3px;width:10px;height:10px"></div>Sale 9PM ese viernes</div>
+    </div>
+  </div>
+</div>
+<div id="tab-1" style="display:none">
+  <div class="week-nav-bar">
+    <button class="nav-arrow" onclick="changeWeek(-1)">‹</button>
+    <div class="week-label" id="week-label"></div>
+    <button class="nav-arrow" onclick="changeWeek(1)">›</button>
+    <button class="btn-pdf" onclick="printTab(1)">🖨 Exportar PDF</button>
+  </div>
+  <div class="content">
+    <div class="week-note" id="week-note"></div>
+    <div class="week-grid" id="week-grid"></div>
+  </div>
+</div>
+
+<script>
+// ════════════════════════════════════════
+// DATOS
+// ════════════════════════════════════════
+const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
+const DIAS  = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
+
+const WEEKENDS = [{"sat":{"d":3,"m":0,"y":2026},"sun":{"d":4,"m":0,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":10,"m":0,"y":2026},"sun":{"d":11,"m":0,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":17,"m":0,"y":2026},"sun":{"d":18,"m":0,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":24,"m":0,"y":2026},"sun":{"d":25,"m":0,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":31,"m":0,"y":2026},"sun":{"d":1,"m":1,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":7,"m":1,"y":2026},"sun":{"d":8,"m":1,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":14,"m":1,"y":2026},"sun":{"d":15,"m":1,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":1,"y":2026},"sun":{"d":22,"m":1,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":28,"m":1,"y":2026},"sun":{"d":1,"m":2,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":7,"m":2,"y":2026},"sun":{"d":8,"m":2,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":14,"m":2,"y":2026},"sun":{"d":15,"m":2,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":2,"y":2026},"sun":{"d":22,"m":2,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":28,"m":2,"y":2026},"sun":{"d":29,"m":2,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":4,"m":3,"y":2026},"sun":{"d":5,"m":3,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":11,"m":3,"y":2026},"sun":{"d":12,"m":3,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":18,"m":3,"y":2026},"sun":{"d":19,"m":3,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":25,"m":3,"y":2026},"sun":{"d":26,"m":3,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":2,"m":4,"y":2026},"sun":{"d":3,"m":4,"y":2026},"piloto":"JOSÉ","obs":"CUBRIÓ ALVARO","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":9,"m":4,"y":2026},"sun":{"d":10,"m":4,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":16,"m":4,"y":2026},"sun":{"d":17,"m":4,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":23,"m":4,"y":2026},"sun":{"d":24,"m":4,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":30,"m":4,"y":2026},"sun":{"d":31,"m":4,"y":2026},"piloto":"JOSÉ","obs":"OSMAR Y OLIVER","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":6,"m":5,"y":2026},"sun":{"d":7,"m":5,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":13,"m":5,"y":2026},"sun":{"d":14,"m":5,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":20,"m":5,"y":2026},"sun":{"d":21,"m":5,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":27,"m":5,"y":2026},"sun":{"d":28,"m":5,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":4,"m":6,"y":2026},"sun":{"d":5,"m":6,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":11,"m":6,"y":2026},"sun":{"d":12,"m":6,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":18,"m":6,"y":2026},"sun":{"d":19,"m":6,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":25,"m":6,"y":2026},"sun":{"d":26,"m":6,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":1,"m":7,"y":2026},"sun":{"d":2,"m":7,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":8,"m":7,"y":2026},"sun":{"d":9,"m":7,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":15,"m":7,"y":2026},"sun":{"d":16,"m":7,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":22,"m":7,"y":2026},"sun":{"d":23,"m":7,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":29,"m":7,"y":2026},"sun":{"d":30,"m":7,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":5,"m":8,"y":2026},"sun":{"d":6,"m":8,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":12,"m":8,"y":2026},"sun":{"d":13,"m":8,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":19,"m":8,"y":2026},"sun":{"d":20,"m":8,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":26,"m":8,"y":2026},"sun":{"d":27,"m":8,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":3,"m":9,"y":2026},"sun":{"d":4,"m":9,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":10,"m":9,"y":2026},"sun":{"d":11,"m":9,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":17,"m":9,"y":2026},"sun":{"d":18,"m":9,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":24,"m":9,"y":2026},"sun":{"d":25,"m":9,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":31,"m":9,"y":2026},"sun":{"d":1,"m":10,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":7,"m":10,"y":2026},"sun":{"d":8,"m":10,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":14,"m":10,"y":2026},"sun":{"d":15,"m":10,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":10,"y":2026},"sun":{"d":22,"m":10,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":28,"m":10,"y":2026},"sun":{"d":29,"m":10,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":5,"m":11,"y":2026},"sun":{"d":6,"m":11,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":12,"m":11,"y":2026},"sun":{"d":13,"m":11,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":19,"m":11,"y":2026},"sun":{"d":20,"m":11,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":26,"m":11,"y":2026},"sun":{"d":27,"m":11,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]}];
+
+// ════════════════════════════════════════
+// LÓGICA DE HORARIOS
+// ════════════════════════════════════════
+
+// Wilson: vie 19 jun = 6PM → lun 22 jun = 9PM, mar = 6PM, ...
+// Referencia: 19/jun/2026 (viernes) = 6PM
+const WILSON_REF_DATE = new Date(2026, 5, 19); // viernes 19 jun = 6PM (índice 0 = 6PM)
+function wilsonSalida(date) {
+  const diff = Math.round((date - WILSON_REF_DATE) / 86400000);
+  // 0=6PM, 1=9PM, 2=6PM... alterna cada día
+  return diff % 2 === 0 ? '6PM' : '9PM';
+}
+
+// Alvaro/José turno nocturno: mié 17 jun = José, jue 18 = Alvaro, vie 19 = José, lun 22 = Alvaro...
+// Referencia: 17/jun/2026 (mié) = José (índice 0)
+const NOCTURNO_REF = new Date(2026, 5, 17); // mié 17 jun = José
+function nocturnoDelDia(date) {
+  const diff = Math.round((date - NOCTURNO_REF) / 86400000);
+  return diff % 2 === 0 ? 'JOSÉ' : 'ALVARO';
+}
+
+// ¿El viernes es el anterior al finde en que alguien descansa?
+// El piloto que descansa ese finde debe salir a las 9PM ese viernes
+function viernesDescansaPiloto(friDate) {
+  // Buscar el sábado de esa semana (fri + 1)
+  const sat = new Date(friDate); sat.setDate(sat.getDate() + 1);
+  const we = WEEKENDS.find(w => {
+    const ws = new Date(w.sat.y, w.sat.m, w.sat.d);
+    return ws.getTime() === sat.getTime();
+  });
+  if (!we) return null;
+  const descansa = we.pilotsInfo.find(p => p.turno === 'descansa');
+  return descansa ? descansa.name : null;
+}
+
+// ════════════════════════════════════════
+// ESTADO UI
+// ════════════════════════════════════════
+let currentTab = 0;
+let currentMonth = new Date().getMonth();
+let currentYear  = new Date().getFullYear();
+
+// Semana actual: lunes de esta semana
+function getMondayOf(date) {
+  const d = new Date(date);
+  const day = d.getDay(); // 0=dom
+  const diff = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0,0,0,0);
+  return d;
+}
+let currentWeekMonday = getMondayOf(new Date());
+
+function switchTab(n) {
+  currentTab = n;
+  document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===n));
+  document.getElementById('tab-0').style.display = n===0 ? '' : 'none';
+  document.getElementById('tab-1').style.display = n===1 ? '' : 'none';
+  document.getElementById('tab-2').style.display = n===2 ? '' : 'none';
+  if (n===1) renderWeek();
+  if (n===2) renderCal();
+}
+
+// ════════════════════════════════════════
+// PESTAÑA 1: FINES DE SEMANA
+// ════════════════════════════════════════
+(function() {
+  const now = new Date();
+  const fut = WEEKENDS.find(w => new Date(w.sat.y, w.sat.m, w.sat.d) >= now);
+  if (fut) { currentMonth = fut.sat.m; currentYear = fut.sat.y; }
+})();
+
+function cap(s) { return String(s).toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); }
+
+function changeMonth(dir) {
+  currentMonth += dir;
+  if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+  if (currentMonth < 0)  { currentMonth = 11; currentYear--; }
+  renderMonth();
+}
+
+function renderMonth() {
+  document.getElementById('nav-month-label').textContent =
+    MESES[currentMonth].toUpperCase() + ' ' + currentYear;
+
+  const mes = WEEKENDS.filter(w => w.sat.m === currentMonth && w.sat.y === currentYear);
+  const el  = document.getElementById('calendar-content');
+
+  if (!mes.length) { el.innerHTML = '<div class="empty-month">Sin fines de semana registrados para este mes.</div>'; return; }
+
+  el.innerHTML = mes.map(w => {
+    const sat = new Date(w.sat.y, w.sat.m, w.sat.d);
+    const sun = new Date(w.sun.y, w.sun.m, w.sun.d);
+    // Viernes anterior
+    const fri = new Date(sat); fri.setDate(sat.getDate() - 1);
+    const fmt = d => d.toLocaleDateString('es-GT', { weekday:'long', day:'numeric', month:'long' });
+    const fmtFri = fri.toLocaleDateString('es-GT', { weekday:'long', day:'numeric', month:'long' });
+
+    // Quién descansa ese fin de semana (para el aviso del viernes)
+    const descansaPiloto = w.pilotsInfo.find(p => p.turno === 'descansa');
+
+    const pilotsHTML = w.pilotsInfo.map(p => `
+      <div class="pilot-row">
+        <div class="pilot-name">${cap(p.name)}</div>
+        <div class="pilot-badge ${p.turno === 'sabado' ? 'badge-sabado' : 'badge-descanso'}">
+          ${p.turno === 'sabado' ? 'Sábado hasta 5PM' : 'Descansa'}
+        </div>
+      </div>`).join('');
+
+    return `
+    <div class="weekend-card">
+      <div class="wc-header">
+        <div class="wc-dates">${fmt(sat)} &mdash; ${fmt(sun)}</div>
+        ${w.obs ? `<div class="wc-obs">⚠ ${w.obs}</div>` : ''}
+        ${descansaPiloto ? `<div class="wc-viernes-aviso">⏰ ${cap(descansaPiloto.name)} sale 9PM el ${fmtFri}</div>` : ''}
+      </div>
+      <div class="wc-body">
+        <div class="wc-cubre">
+          <div class="wc-cubre-label">Fin de semana completo</div>
+          <div class="wc-cubre-name">${cap(w.piloto)}</div>
+          <div class="wc-cubre-detail">Sábado completo · Domingo completo</div>
+        </div>
+        <div class="wc-rest">
+          <div class="wc-rest-label">Resto de pilotos</div>
+          ${pilotsHTML}
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════
+// PESTAÑA 2: HORARIOS SEMANALES
+// ════════════════════════════════════════
+function changeWeek(dir) {
+  currentWeekMonday = new Date(currentWeekMonday);
+  currentWeekMonday.setDate(currentWeekMonday.getDate() + dir * 7);
+  renderWeek();
+}
+
+function badge(cls, text) { return `<span class="hour-badge ${cls}">${text}</span>`; }
+
+function renderWeek() {
+  const mon = new Date(currentWeekMonday);
+  const fri = new Date(mon); fri.setDate(mon.getDate() + 4);
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // Label semana
+  const fmtShort = d => d.toLocaleDateString('es-GT', { day:'numeric', month:'short' });
+  document.getElementById('week-label').textContent =
+    `Semana del ${fmtShort(mon)} al ${fmtShort(fri)}`;
+
+  // Días de la semana (lun–vie)
+  const days = Array.from({length:5}, (_,i) => { const d = new Date(mon); d.setDate(mon.getDate()+i); return d; });
+
+  // ¿Quién descansa este viernes?
+  const descansaViernes = viernesDescansaPiloto(fri);
+
+  // Nota de turno nocturno
+  const nocLun = nocturnoDelDia(days[0]);
+  document.getElementById('week-note').innerHTML =
+    `<strong>Turno nocturno esta semana:</strong> José y Alvaro se alternan día a día — el lunes le toca a <strong>${cap(nocLun)}</strong>.`;
+
+  // Pilotos y su lógica por día
+  const pilotos = [
+    { name: 'Wilson',  color: '#1F5C9E' },
+    { name: 'Aldrin',  color: '#2E7D32' },
+    { name: 'José',    color: '#6B3FA0' },
+    { name: 'Alvaro',  color: '#6B3FA0' },
+    { name: 'Kevin',   color: '#C8860A' },
+  ];
+
+  function getSalida(piloto, date, dayIdx) {
+    const isFri = dayIdx === 4;
+    const name = piloto.name.toUpperCase();
+
+    if (name === 'WILSON') {
+      const hora = wilsonSalida(date);
+      // El viernes que le toca descansar, sale 9PM
+      if (isFri && descansaViernes === 'WILSON') return badge('h-9pm-special', '9PM ⚠');
+      return badge(hora === '9PM' ? 'h-9pm' : 'h-6pm', hora);
+    }
+
+    if (name === 'ALDRIN') {
+      if (isFri && descansaViernes === 'ALDRIN') return badge('h-9pm-special', '9PM ⚠');
+      return badge('h-7pm', '7PM');
+    }
+
+    if (name === 'JOSÉ') {
+      const esNocturno = nocturnoDelDia(date) === 'JOSÉ';
+      return esNocturno ? badge('h-nocturno', 'Cubre') : badge('h-off', 'Turno normal');
+    }
+
+    if (name === 'ALVARO') {
+      const esNocturno = nocturnoDelDia(date) === 'ALVARO';
+      return esNocturno ? badge('h-nocturno', 'Cubre') : badge('h-off', 'Turno normal');
+    }
+
+    if (name === 'KEVIN') {
+      // Lun=9PM, Mar=7PM, Mié=9PM, Jue=7PM, Vie=9PM
+      const horas = ['h-9pm','h-7pm','h-9pm','h-7pm','h-9pm'];
+      const labels = ['9PM','7PM','9PM','7PM','9PM'];
+      return badge(horas[dayIdx], labels[dayIdx]);
+    }
+
+    return '';
+  }
+
+  // Construir grid
+  const todayCols = days.map(d => d.getTime() === today.getTime());
+
+  let html = '';
+  // Fila encabezado
+  html += `<div class="wg-header">Piloto</div>`;
+  days.forEach((d, i) => {
+    const isToday = todayCols[i];
+    const label = d.toLocaleDateString('es-GT', { weekday:'short', day:'numeric' });
+    html += `<div class="wg-header day-col" style="${isToday?'background:var(--olive);':''}">${label}${isToday?' ·':''}</div>`;
+  });
+
+  // Filas de pilotos
+  pilotos.forEach(p => {
+    html += `<div class="wg-cell wg-pilot-label" style="color:${p.color}">${p.name}</div>`;
+    days.forEach((d, i) => {
+      const isToday = todayCols[i];
+      html += `<div class="wg-cell${isToday?' today-col':''}" style="text-align:center">${getSalida(p, d, i)}</div>`;
+    });
+  });
+
+  document.getElementById('week-grid').innerHTML = html;
+}
+
+// ════════════════════════════════════════
+// PESTAÑA 3: CALENDARIO
+// ════════════════════════════════════════
+const WE_RAW_CAL = [
+  [2026,1,3,"WILSON","ALVARO"],[2026,1,10,"JOSÉ","WILSON"],[2026,1,17,"ALDRIN","JOSÉ"],[2026,1,24,"ALVARO","ALDRIN"],
+  [2026,1,31,"WILSON","ALVARO"],[2026,2,7,"JOSÉ","WILSON"],[2026,2,14,"ALDRIN","JOSÉ"],[2026,2,21,"ALVARO","ALDRIN"],
+  [2026,2,28,"WILSON","ALVARO"],[2026,3,7,"JOSÉ","WILSON"],[2026,3,14,"ALDRIN","JOSÉ"],[2026,3,21,"ALVARO","ALDRIN"],
+  [2026,3,28,"WILSON","ALVARO"],[2026,4,4,"JOSÉ","WILSON"],[2026,4,11,"ALDRIN","JOSÉ"],[2026,4,18,"ALVARO","ALDRIN"],
+  [2026,4,25,"WILSON","ALVARO"],[2026,5,2,"JOSÉ","WILSON"],[2026,5,9,"ALDRIN","JOSÉ"],[2026,5,16,"ALVARO","ALDRIN"],
+  [2026,5,23,"WILSON","ALVARO"],[2026,5,30,"JOSÉ","WILSON"],[2026,6,6,"ALDRIN","JOSÉ"],[2026,6,13,"ALVARO","ALDRIN"],
+  [2026,6,20,"WILSON","ALVARO"],[2026,6,27,"JOSÉ","WILSON"],[2026,7,4,"ALDRIN","JOSÉ"],[2026,7,11,"ALVARO","ALDRIN"],
+  [2026,7,18,"WILSON","ALVARO"],[2026,7,25,"JOSÉ","WILSON"],[2026,8,1,"ALDRIN","JOSÉ"],[2026,8,8,"ALVARO","ALDRIN"],
+  [2026,8,15,"WILSON","ALVARO"],[2026,8,22,"JOSÉ","WILSON"],[2026,8,29,"ALDRIN","JOSÉ"],[2026,9,5,"ALVARO","ALDRIN"],
+  [2026,9,12,"WILSON","ALVARO"],[2026,9,19,"JOSÉ","WILSON"],[2026,9,26,"ALDRIN","JOSÉ"],[2026,10,3,"ALVARO","ALDRIN"],
+  [2026,10,10,"WILSON","ALVARO"],[2026,10,17,"JOSÉ","WILSON"],[2026,10,24,"ALDRIN","JOSÉ"],[2026,10,31,"ALVARO","ALDRIN"],
+  [2026,11,7,"WILSON","ALVARO"],[2026,11,14,"JOSÉ","WILSON"],[2026,11,21,"ALDRIN","JOSÉ"],[2026,11,28,"ALVARO","ALDRIN"],
+  [2026,12,5,"WILSON","ALVARO"],[2026,12,12,"JOSÉ","WILSON"],[2026,12,19,"ALDRIN","JOSÉ"],[2026,12,26,"ALVARO","ALDRIN"],
+];
+
+const CAL_EVT = {}, CAL_SAT = {}, CAL_SUN = {};
+const DIAS_HDR_CAL = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
+function dkey(d){ return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; }
+
+WE_RAW_CAL.forEach(([y,m,day,cubre,descansa])=>{
+  const sat=new Date(y,m-1,day), sun=new Date(y,m-1,day+1), fri=new Date(y,m-1,day-1);
+  const otros=["WILSON","JOSÉ","ALDRIN","ALVARO"].filter(p=>p!==cubre).map(p=>({name:cap(p),turno:p===descansa?'descansa':'sabado'}));
+  CAL_SAT[dkey(sat)]={cubre:cap(cubre),otros};
+  CAL_SUN[dkey(sun)]={cubre:cap(cubre)};
+  const k=dkey(fri); if(!CAL_EVT[k]) CAL_EVT[k]=[]; CAL_EVT[k].push({text:`⏰ ${cap(descansa)}: sale 9PM`,cls:'ev-9pm'});
+});
+
+let calMonth = new Date().getMonth(), calYear = 2026;
+
+function changeMonthCal(dir){
+  calMonth+=dir;
+  if(calMonth>11){calMonth=0;calYear++;}
+  if(calMonth<0){calMonth=11;calYear--;}
+  renderCal();
+}
+
+function renderCal(){
+  document.getElementById('cal-month-label').textContent = MESES[calMonth].toUpperCase()+' '+calYear;
+  document.getElementById('cal-month-title').textContent = MESES[calMonth]+' '+calYear;
+  const today=new Date(); today.setHours(0,0,0,0);
+  const first=new Date(calYear,calMonth,1);
+  const dow=first.getDay(), offset=dow===0?-6:1-dow;
+  const start=new Date(first); start.setDate(first.getDate()+offset);
+  const grid=document.getElementById('cal-grid');
+  let html='';
+  DIAS_HDR_CAL.forEach((d,i)=>{ html+=`<div class="cal-header${i>=5?' weekend':''}">${d}</div>`; });
+  for(let i=0;i<42;i++){
+    const d=new Date(start); d.setDate(start.getDate()+i);
+    // Saltar semanas completas fuera del mes
+    if(i%7===0){
+      const weekDays=Array.from({length:7},(_,j)=>{const x=new Date(start);x.setDate(start.getDate()+i+j);return x;});
+      if(weekDays.every(x=>x.getMonth()!==calMonth)) { i+=6; continue; }
+    }
+    const isOther=d.getMonth()!==calMonth;
+    const isToday=d.getTime()===today.getTime();
+    const dow2=d.getDay(), isSat=dow2===6, isSun=dow2===0;
+    let cls='cal-day'; if(isOther) cls+=' other-month'; if(isToday) cls+=' cal-today';
+    const k=dkey(d);
+    let inner=`<div class="day-num">${d.getDate()}</div>`;
+    if(!isOther){
+      if(isSat&&CAL_SAT[k]){
+      const we=CAL_SAT[k];
+      inner+=`<div class="we-name">${we.cubre}</div>`+we.otros.map(p=>`<div class="we-pilot-row"><div class="we-pilot-name">${p.name}</div><div class="we-badge ${p.turno==='sabado'?'badge-sabado':'badge-descansa'}">${p.turno==='sabado'?'Sáb 5PM':'Descansa'}</div></div>`).join('');
+    } else if(isSun&&CAL_SUN[k]){
+      inner+=`<div class="we-name">${CAL_SUN[k].cubre}</div><div class="we-pilot-row"><div class="we-badge badge-turno">Turno completo</div></div>`;
+      } else {
+        inner+=(CAL_EVT[k]||[]).map(e=>`<div class="ev ${e.cls}">${e.text}</div>`).join('');
+      }
+    }
+    html+=`<div class="${cls}">${inner}</div>`;
+  }
+  grid.innerHTML=html;
+}
+
+// ════════════════════════════════════════
+// PDF
+// ════════════════════════════════════════
+function printTab(tab) {
+  [0,1,2].forEach(i => {
+    const el = document.getElementById('tab-'+i);
+    if (el) el.classList.toggle('hide-print', i !== tab);
+  });
+  window.print();
+  // Restaurar después de imprimir
+  setTimeout(() => [0,1,2].forEach(i => {
+    const el = document.getElementById('tab-'+i);
+    if (el) el.classList.remove('hide-print');
+  }), 500);
+}
+
+// ════════════════════════════════════════
+// INIT
+// ════════════════════════════════════════
+renderMonth();
+</script>
+</body>
+</html>

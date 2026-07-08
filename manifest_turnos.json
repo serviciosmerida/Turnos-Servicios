@@ -1,0 +1,23 @@
+{
+  "name": "Turnos · Servigrúas Mérida",
+  "short_name": "Turnos",
+  "description": "Control de turnos y horarios",
+  "start_url": "TURNOS_2026.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#1A1A1A",
+  "icons": [
+    {
+      "src": "logo3.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "logo3.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
