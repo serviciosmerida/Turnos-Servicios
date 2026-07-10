@@ -195,173 +195,6 @@
   .badge-sabado   { background:var(--blue-light);  color:var(--blue); }
   .badge-descansa { background:var(--gray-light);  color:var(--gray-text); }
   .badge-turno    { background:var(--olive-light); color:var(--olive); }
-/* ════════════════════════════════════════
-     OPTIMIZACIÓN PARA TELÉFONOS (RESPONSIVE)
-     ════════════════════════════════════════ */
-  @media (max-width: 768px) {
-    .topbar { padding: .8rem 1rem; }
-    .tabs-bar { padding: 0 0.5rem; }
-    .tab-btn { padding: .8rem 1rem; font-size: .78rem; }
-    .nav-bar, .week-nav-bar { padding: .85rem 1rem; gap: .5rem; }
-    .nav-month, .week-label { font-size: 1.2rem; min-width: auto; flex-grow: 1; text-align: center; }
-    .btn-pdf { width: 100%; margin-top: .5rem; justify-content: center; }
-    .content { padding: 1rem .5rem 2rem; }
-    
-    /* Pestaña 1: Fines de semana en una sola columna */
-    .wc-body { grid-template-columns: 1fr; }
-    .wc-cubre { border-right: none; border-bottom: 1.5px solid var(--gray-light); }
-   
-  /* Forzamos a la cuadrícula/tabla a comportarse como una lista vertical */
-  .week-grid {
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 1.5rem !important; /* Espacio entre bloques de días */
-    background: transparent !important;
-    border: none !important;
-  }
-
-  /* Ocultamos la fila de cabecera original (PILOTO, LUN 6, MAR 7...) */
-  .week-grid > div:first-child {
-    display: none !important;
-  }
-
-  /* Cada bloque de día ahora será una tarjeta independiente */
-  .week-day-block {
-    display: flex;
-    flex-direction: column;
-    background: #ffffff;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    border: 1px solid var(--gray-light);
-  }
-
-  /* Estilo para la cabecera negra de cada día (ej: "lunes, 6 de julio") */
-  .week-day-header {
-    background: #111111;
-    color: #ffffff;
-    padding: .8rem 1rem;
-    font-weight: bold;
-    font-size: 1rem;
-    text-transform: lowercase;
-  }
-  .week-day-header::first-letter {
-    text-transform: uppercase;
-  }
-
-  /* Cada fila de piloto dentro del día */
-  .week-pilot-row {
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-    padding: .8rem 1rem !important;
-    border-bottom: 1px solid var(--gray-light) !important;
-    background: #ffffff !important;
-  }
-
-  .week-pilot-row:last-child {
-    border-bottom: none !important;
-  }
-
-  /* Nombre del piloto a la izquierda */
-  .week-pilot-name {
-    font-weight: 600 !important;
-    font-size: .95rem !important;
-  }
-
-  /* Badge del turno a la derecha */
-  .week-shift-badge {
-    margin-left: auto !important;
-  }
-    
-    /* Pestaña 3: Calendario mensual transformado en lista vertical */
-    .cal-grid { grid-template-columns: 1fr; }
-    .cal-header { display: none; } 
-    .cal-day { min-height: auto; border-right: none; padding: .6rem; display: flex; flex-direction: column; gap: .2rem; }
-    .cal-day.other-month { display: none; } 
-    .day-num { font-size: 1.3rem; border-bottom: 1px solid var(--gray-light); padding-bottom: .2rem; display: flex; justify-content: space-between; align-items: center; }
-    .day-num::after { content: ' de este mes'; font-size: 0.75rem; font-family: 'Inter', sans-serif; color: var(--gray-text); font-weight: normal; }
-    
-    .we-name { font-size: 1.8rem; margin-top: .2rem; }
-    .we-pilot-row { justify-content: flex-start; gap: 1rem; }
-    .we-badge { font-size: .7rem; padding: .2rem .6...; }
-  }
-
-  /* Optimización estricta para cuando se genere el PDF desde el móvil */
-  @media print {
-    @page { size: portrait; margin: 0.8cm; }
-    .topbar, .tabs-bar, .nav-bar, .week-nav-bar, .btn-pdf, .nav-legend, .legend { display: none !important; }
-    body { background: #fff; font-size: 12px; }
-    .content { padding: 0.5rem; max-width: 100% !important; width: 100% !important; }
-    #tab-0, #tab-1, #tab-2 { display: block !important; }
-    #tab-0.hide-print, #tab-1.hide-print, #tab-2.hide-print { display: none !important; }
-    .cal-grid-container, .week-grid-container { overflow: visible !important; border: none !important; }
-    .cal-grid { grid-template-columns: repeat(7, 1fr) !important; width: 100% !important; }
-    .cal-header { display: block !important; font-size: 9px !important; }
-    .cal-day { display: block !important; min-height: 90px !important; border: 1px solid var(--gray-mid) !important; }
-    .cal-day.other-month { display: block !important; }
-    .day-num::after { display: none !important; }
-    .week-grid { grid-template-columns: 100px repeat(5, 1fr) !important; min-width: 100% !important; }
-    .wc-body { grid-template-columns: 1fr 1fr !important; }
-    .wc-cubre { border-right: 1.5px solid var(--gray-light) !important; border-bottom: none !important; }
-  }
-  /* ══════════════════════════════════════════════════════
-     DISEÑO RESPONSIVE: HORARIOS SEMANALES PARA PC Y MÓVIL
-     ══════════════════════════════════════════════════════ */
-  
-  /* Vista Web / Escritorio por defecto */
-  .week-grid { display: flex; flex-direction: column; gap: 1.2rem; background: transparent; border: none; }
-  .week-day-block { background: #fff; border: 1.5px solid var(--gray-light); border-radius: 14px; overflow: hidden; }
-  .week-day-header { background: var(--black); color: #fff; font-size: .85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; padding: .6rem 1.25rem; }
-  .week-day-header.today-hdr { background: var(--olive); }
-  .week-day-pilots { display: grid; grid-template-columns: repeat(5, 1fr); padding: 1rem; gap: 1rem; background: #fff; }
-  .week-pilot-row { display: flex; flex-direction: column; align-items: center; gap: .4rem; text-align: center; }
-  .week-pilot-name { font-weight: 700; font-size: .85rem; }
-
-  /* Vista exclusiva para Teléfonos Celulares */
-  @media (max-width: 768px) {
-    /* Ajustes generales de pantalla */
-    .topbar { padding: .8rem 1rem; }
-    .tabs-bar { padding: 0 0.5rem; }
-    .tab-btn { padding: .8rem .8rem; font-size: .75rem; }
-    .week-nav-bar { padding: .85rem 1rem; gap: .5rem; }
-    .week-label { font-size: 1.15rem; min-width: auto; flex-grow: 1; text-align: center; }
-    .btn-pdf { width: 100%; margin-top: .5rem; justify-content: center; }
-    .content { padding: 1rem .5rem 2rem; }
-    
-    /* Pestaña 1: Fines de semana a una columna */
-    .wc-body { grid-template-columns: 1fr; }
-    .wc-cubre { border-right: none; border-bottom: 1.5px solid var(--gray-light); }
-    
-    /* Pestaña 3: Calendario a una columna */
-    .cal-grid { grid-template-columns: 1fr; }
-    .cal-header { display: none; }
-    .cal-day { min-height: auto; border-right: none; padding: .6rem; }
-    .cal-day.other-month { display: none; }
-
-    /* Pestaña 2: Transformación a lista vertical idéntica a tu diseño */
-    .week-day-pilots { grid-template-columns: 1fr; padding: 0; gap: 0; }
-    .week-pilot-row { 
-      flex-direction: row; 
-      justify-content: space-between; 
-      align-items: center; 
-      padding: .75rem 1.25rem; 
-      border-bottom: 1px solid var(--gray-light);
-      text-align: left;
-    }
-    .week-pilot-row:last-child { border-bottom: none; }
-    .week-pilot-name { font-weight: 600; font-size: .95rem; }
-    .week-day-header { font-size: .95rem; padding: .75rem 1.25rem; }
-    .is-today-block { border-color: var(--olive); box-shadow: 0 0 10px rgba(74, 82, 64, 0.15); }
-  }
-
-  /* Optimización para la impresión limpia del PDF */
-  @media print {
-    .week-day-pilots { grid-template-columns: repeat(5, 1fr) !important; padding: 1rem !important; gap: 1rem !important; }
-    .week-pilot-row { flex-direction: column !important; align-items: center !important; gap: .4rem !important; }
-    .week-day-header { background: var(--black) !important; color: #fff !important; }
-    .week-day-header.today-hdr { background: var(--olive) !important; }
-  }
 </style>
 </head>
 <body>
@@ -583,15 +416,23 @@ function renderWeek() {
   const fri = new Date(mon); fri.setDate(mon.getDate() + 4);
   const today = new Date(); today.setHours(0,0,0,0);
 
+  // Label semana
   const fmtShort = d => d.toLocaleDateString('es-GT', { day:'numeric', month:'short' });
-  document.getElementById('week-label').textContent = `Semana del ${fmtShort(mon)} al ${fmtShort(fri)}`;
+  document.getElementById('week-label').textContent =
+    `Semana del ${fmtShort(mon)} al ${fmtShort(fri)}`;
 
+  // Días de la semana (lun–vie)
   const days = Array.from({length:5}, (_,i) => { const d = new Date(mon); d.setDate(mon.getDate()+i); return d; });
+
+  // ¿Quién descansa este viernes?
   const descansaViernes = viernesDescansaPiloto(fri);
 
+  // Nota de turno nocturno
   const nocLun = nocturnoDelDia(days[0]);
-  document.getElementById('week-note').innerHTML = `<strong>Turno nocturno esta semana:</strong> José y Alvaro se alternan día a día — el lunes le toca a <strong>${cap(nocLun)}</strong>.`;
+  document.getElementById('week-note').innerHTML =
+    `<strong>Turno nocturno esta semana:</strong> José y Alvaro se alternan día a día — el lunes le toca a <strong>${cap(nocLun)}</strong>.`;
 
+  // Pilotos y su lógica por día
   const pilotos = [
     { name: 'Wilson',  color: '#1F5C9E' },
     { name: 'Aldrin',  color: '#2E7D32' },
@@ -600,50 +441,6 @@ function renderWeek() {
     { name: 'Kevin',   color: '#C8860A' },
   ];
 
-  function getSalida(piloto, date, dayIdx) {
-    const isFri = dayIdx === 4;
-    const name = piloto.name.toUpperCase();
-    if (name === 'WILSON') {
-      const hora = wilsonSalida(date);
-      if (isFri && descansaViernes === 'WILSON') return badge('h-9pm-special', '9PM ⚠');
-      return badge(hora === '9PM' ? 'h-9pm' : 'h-6pm', hora);
-    }
-    if (name === 'ALDRIN') {
-      if (isFri && descansaViernes === 'ALDRIN') return badge('h-9pm-special', '9PM ⚠');
-      return badge('h-7pm', '7PM');
-    }
-    if (name === 'JOSÉ') return nocturnoDelDia(date) === 'JOSÉ' ? badge('h-nocturno', 'Cubre') : badge('h-off', 'Turno normal');
-    if (name === 'ALVARO') return nocturnoDelDia(date) === 'ALVARO' ? badge('h-nocturno', 'Cubre') : badge('h-off', 'Turno normal');
-    if (name === 'KEVIN') {
-      const horas = ['h-9pm','h-7pm','h-9pm','h-7pm','h-9pm'];
-      const labels = ['9PM','7PM','9PM','7PM','9PM'];
-      return badge(horas[dayIdx], labels[dayIdx]);
-    }
-    return '';
-  }
-
-  // Generamos una estructura HTML limpia que CSS pueda transformar sin romper nada
-  let html = '';
-  days.forEach((d, dayIdx) => {
-    const isToday = d.getTime() === today.getTime();
-    const dayLabel = d.toLocaleDateString('es-GT', { weekday: 'long', day: 'numeric', month: 'long' });
-    
-    html += `
-    <div class="week-day-block ${isToday ? 'is-today-block' : ''}">
-      <div class="week-day-header ${isToday ? 'today-hdr' : ''}">${dayLabel}${isToday ? ' · HOY' : ''}</div>
-      <div class="week-day-pilots">
-        ${pilotos.map(p => `
-          <div class="week-pilot-row">
-            <span class="week-pilot-name" style="color:${p.color}">${p.name}</span>
-            <div class="week-shift-badge">${getSalida(p, d, dayIdx)}</div>
-          </div>
-        `).join('')}
-      </div>
-    </div>`;
-  });
-
-  document.getElementById('week-grid').innerHTML = html;
-}
   function getSalida(piloto, date, dayIdx) {
     const isFri = dayIdx === 4;
     const name = piloto.name.toUpperCase();
