@@ -195,6 +195,53 @@
   .badge-sabado   { background:var(--blue-light);  color:var(--blue); }
   .badge-descansa { background:var(--gray-light);  color:var(--gray-text); }
   .badge-turno    { background:var(--olive-light); color:var(--olive); }
+/* ════════════════════════════════════════
+     OPTIMIZACIÓN PARA TELÉFONOS (RESPONSIVE)
+     ════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .topbar { padding: .8rem 1rem; }
+    .tabs-bar { padding: 0 0.5rem; }
+    .tab-btn { padding: .8rem 1rem; font-size: .78rem; }
+    .nav-bar, .week-nav-bar { padding: .85rem 1rem; gap: .5rem; }
+    .nav-month, .week-label { font-size: 1.2rem; min-width: auto; flex-grow: 1; text-align: center; }
+    .btn-pdf { width: 100%; margin-top: .5rem; justify-content: center; }
+    .content { padding: 1rem .5rem 2rem; }
+    
+    /* Pestaña 1: Fines de semana en una sola columna */
+    .wc-body { grid-template-columns: 1fr; }
+    .wc-cubre { border-right: none; border-bottom: 1.5px solid var(--gray-light); }
+    
+    /* Pestaña 3: Calendario mensual transformado en lista vertical */
+    .cal-grid { grid-template-columns: 1fr; }
+    .cal-header { display: none; } 
+    .cal-day { min-height: auto; border-right: none; padding: .6rem; display: flex; flex-direction: column; gap: .2rem; }
+    .cal-day.other-month { display: none; } 
+    .day-num { font-size: 1.3rem; border-bottom: 1px solid var(--gray-light); padding-bottom: .2rem; display: flex; justify-content: space-between; align-items: center; }
+    .day-num::after { content: ' de este mes'; font-size: 0.75rem; font-family: 'Inter', sans-serif; color: var(--gray-text); font-weight: normal; }
+    
+    .we-name { font-size: 1.8rem; margin-top: .2rem; }
+    .we-pilot-row { justify-content: flex-start; gap: 1rem; }
+    .we-badge { font-size: .7rem; padding: .2rem .6...; }
+  }
+
+  /* Optimización estricta para cuando se genere el PDF desde el móvil */
+  @media print {
+    @page { size: portrait; margin: 0.8cm; }
+    .topbar, .tabs-bar, .nav-bar, .week-nav-bar, .btn-pdf, .nav-legend, .legend { display: none !important; }
+    body { background: #fff; font-size: 12px; }
+    .content { padding: 0.5rem; max-width: 100% !important; width: 100% !important; }
+    #tab-0, #tab-1, #tab-2 { display: block !important; }
+    #tab-0.hide-print, #tab-1.hide-print, #tab-2.hide-print { display: none !important; }
+    .cal-grid-container, .week-grid-container { overflow: visible !important; border: none !important; }
+    .cal-grid { grid-template-columns: repeat(7, 1fr) !important; width: 100% !important; }
+    .cal-header { display: block !important; font-size: 9px !important; }
+    .cal-day { display: block !important; min-height: 90px !important; border: 1px solid var(--gray-mid) !important; }
+    .cal-day.other-month { display: block !important; }
+    .day-num::after { display: none !important; }
+    .week-grid { grid-template-columns: 100px repeat(5, 1fr) !important; min-width: 100% !important; }
+    .wc-body { grid-template-columns: 1fr 1fr !important; }
+    .wc-cubre { border-right: 1.5px solid var(--gray-light) !important; border-bottom: none !important; }
+  }
 </style>
 </head>
 <body>
