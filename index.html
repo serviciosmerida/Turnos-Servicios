@@ -210,6 +210,69 @@
     /* Pestaña 1: Fines de semana en una sola columna */
     .wc-body { grid-template-columns: 1fr; }
     .wc-cubre { border-right: none; border-bottom: 1.5px solid var(--gray-light); }
+   
+  /* Forzamos a la cuadrícula/tabla a comportarse como una lista vertical */
+  .week-grid {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 1.5rem !important; /* Espacio entre bloques de días */
+    background: transparent !important;
+    border: none !important;
+  }
+
+  /* Ocultamos la fila de cabecera original (PILOTO, LUN 6, MAR 7...) */
+  .week-grid > div:first-child {
+    display: none !important;
+  }
+
+  /* Cada bloque de día ahora será una tarjeta independiente */
+  .week-day-block {
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    border: 1px solid var(--gray-light);
+  }
+
+  /* Estilo para la cabecera negra de cada día (ej: "lunes, 6 de julio") */
+  .week-day-header {
+    background: #111111;
+    color: #ffffff;
+    padding: .8rem 1rem;
+    font-weight: bold;
+    font-size: 1rem;
+    text-transform: lowercase;
+  }
+  .week-day-header::first-letter {
+    text-transform: uppercase;
+  }
+
+  /* Cada fila de piloto dentro del día */
+  .week-pilot-row {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: .8rem 1rem !important;
+    border-bottom: 1px solid var(--gray-light) !important;
+    background: #ffffff !important;
+  }
+
+  .week-pilot-row:last-child {
+    border-bottom: none !important;
+  }
+
+  /* Nombre del piloto a la izquierda */
+  .week-pilot-name {
+    font-weight: 600 !important;
+    font-size: .95rem !important;
+  }
+
+  /* Badge del turno a la derecha */
+  .week-shift-badge {
+    margin-left: auto !important;
+  }
     
     /* Pestaña 3: Calendario mensual transformado en lista vertical */
     .cal-grid { grid-template-columns: 1fr; }
