@@ -84,6 +84,7 @@
   .wc-cubre { padding: 1.1rem 1.25rem; border-right: 1.5px solid var(--gray-light); display: flex; flex-direction: column; gap: .3rem; }
   .wc-cubre-label { font-size: .65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--olive); font-weight: 600; }
   .wc-cubre-name { font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem; line-height: 1; color: var(--olive); }
+  .wc-cubre-name.long-name { font-size: 1.5rem; }
   .wc-cubre-detail { font-size: .73rem; color: var(--gray-text); }
   .wc-rest { padding: 1.1rem 1.25rem; display: flex; flex-direction: column; gap: .5rem; }
   .wc-rest-label { font-size: .65rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gray-text); font-weight: 600; }
@@ -188,13 +189,74 @@
   .cal-day.other-month .day-num { color:#ccc; }
   .ev { font-size:.64rem; font-weight:600; border-radius:5px; padding:.18rem .35rem; margin-bottom:.2rem; line-height:1.3; word-break:break-word; }
   .ev-9pm { background:var(--amber-light); color:var(--amber); border:1px solid var(--amber); }
-  .we-name { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; line-height:1; color:var(--olive); margin-bottom:.3rem; }
-  .we-pilot-row { display:flex; align-items:center; justify-content:space-between; gap:.25rem; margin-bottom:.15rem; }
-  .we-pilot-name { font-size:.65rem; font-weight:600; color:var(--black); }
+  .we-name { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; line-height:1; color:var(--olive); margin-bottom:.3rem; word-break:break-word; }
+  .we-name.long-name { font-size:.85rem; letter-spacing:.2px; }
+  .we-pilot-row { display:flex; align-items:center; justify-content:space-between; gap:.25rem; margin-bottom:.15rem; flex-wrap:wrap; }
+  .we-pilot-name { font-size:.65rem; font-weight:600; color:var(--black); word-break:break-word; }
   .we-badge { font-size:.58rem; font-weight:600; padding:.12rem .4rem; border-radius:20px; white-space:nowrap; }
   .badge-sabado   { background:var(--blue-light);  color:var(--blue); }
   .badge-descansa { background:var(--gray-light);  color:var(--gray-text); }
   .badge-turno    { background:var(--olive-light); color:var(--olive); }
+
+  /* ── Scroll horizontal para grillas anchas en móvil ── */
+  .grid-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -1rem; padding: 0 1rem; }
+  .grid-scroll::-webkit-scrollbar { height: 6px; }
+  .grid-scroll::-webkit-scrollbar-thumb { background: var(--gray-mid); border-radius: 10px; }
+
+  /* ══════════════════════════════════════════
+     RESPONSIVE — TABLET Y MÓVIL
+     ══════════════════════════════════════════ */
+  @media (max-width: 768px) {
+    .topbar { padding: .8rem 1rem; }
+    .topbar-brand { font-size: 1.05rem; }
+    .topbar-sub { font-size: .62rem; }
+
+    .tabs-bar { padding: 0 .5rem; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .tab-btn { padding: .8rem .9rem; font-size: .74rem; white-space: nowrap; flex: 0 0 auto; }
+
+    .nav-bar, .week-nav-bar {
+      padding: .7rem .85rem; flex-wrap: wrap; row-gap: .6rem;
+    }
+    .nav-month, .week-label { font-size: 1.15rem; min-width: 0; flex: 1 1 auto; text-align: center; letter-spacing: 1px; }
+    .nav-arrow { width: 30px; height: 30px; flex: 0 0 auto; }
+    .nav-legend { order: 3; width: 100%; margin-left: 0; justify-content: center; gap: .7rem; }
+    .legend-item { font-size: .68rem; }
+    .btn-pdf { order: 2; margin-left: 0; padding: .4rem .8rem; font-size: .72rem; }
+
+    .content { padding: 1rem .85rem 2.5rem; }
+
+    /* Tarjetas de fin de semana: apilar en una sola columna */
+    .wc-body { grid-template-columns: 1fr; }
+    .wc-cubre { border-right: none; border-bottom: 1.5px solid var(--gray-light); }
+    .wc-header { flex-wrap: wrap; gap: .4rem; }
+    .wc-cubre-name { font-size: 1.9rem; }
+    .wc-cubre-name.long-name { font-size: 1.25rem; }
+
+    /* Horarios semanales: columna de piloto más angosta + scroll horizontal en .grid-scroll */
+    .week-grid { grid-template-columns: 88px repeat(5, 100px); }
+    .wg-cell { padding: .55rem .5rem; font-size: .74rem; }
+    .wg-header { font-size: .62rem; padding: .5rem .4rem; }
+    .wg-pilot-label { font-size: .7rem; }
+    .hour-badge { font-size: .66rem; padding: .15rem .45rem; }
+    .week-note { font-size: .72rem; padding: .65rem .85rem; }
+
+    /* Calendario mensual: mantener 7 columnas legibles con scroll horizontal */
+    .cal-grid { grid-template-columns: repeat(7, 108px); }
+    .cal-day { min-height: 96px; padding: .35rem .35rem; }
+    .cal-header { font-size: .62rem; padding: .45rem .2rem; }
+    #cal-month-title { font-size: 1.6rem; }
+  }
+
+  @media (max-width: 480px) {
+    .topbar-brand { font-size: .95rem; }
+    .nav-month, .week-label { font-size: 1rem; }
+    .content { padding: .85rem .6rem 2rem; }
+    .wc-cubre, .wc-rest { padding: .9rem 1rem; }
+    .wc-cubre-name { font-size: 1.6rem; }
+    .wc-cubre-name.long-name { font-size: 1.05rem; }
+    .pilot-name { font-size: .78rem; }
+    .pilot-badge { font-size: .66rem; }
+  }
 </style>
 </head>
 <body>
@@ -238,7 +300,7 @@
   </div>
   <div class="content" style="max-width:1100px">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:3px;color:var(--olive);margin-bottom:1rem" id="cal-month-title"></div>
-    <div class="cal-grid" id="cal-grid"></div>
+    <div class="grid-scroll"><div class="cal-grid" id="cal-grid"></div></div>
     <div class="legend" style="margin-top:1.2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
       <div class="legend-item"><div class="legend-dot" style="background:var(--olive-light);border:1px solid var(--olive);border-radius:3px;width:10px;height:10px"></div>Cubre fin de semana completo</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--blue-light);border:1px solid var(--blue);border-radius:3px;width:10px;height:10px"></div>Sábado hasta 5PM</div>
@@ -256,7 +318,7 @@
   </div>
   <div class="content">
     <div class="week-note" id="week-note"></div>
-    <div class="week-grid" id="week-grid"></div>
+    <div class="grid-scroll"><div class="week-grid" id="week-grid"></div></div>
   </div>
 </div>
 
@@ -267,7 +329,7 @@
 const MESES = ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'];
 const DIAS  = ['Lunes','Martes','Miércoles','Jueves','Viernes'];
 
-const WEEKENDS = [{"sat":{"d":3,"m":0,"y":2026},"sun":{"d":4,"m":0,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":10,"m":0,"y":2026},"sun":{"d":11,"m":0,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":17,"m":0,"y":2026},"sun":{"d":18,"m":0,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":24,"m":0,"y":2026},"sun":{"d":25,"m":0,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":31,"m":0,"y":2026},"sun":{"d":1,"m":1,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":7,"m":1,"y":2026},"sun":{"d":8,"m":1,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":14,"m":1,"y":2026},"sun":{"d":15,"m":1,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":1,"y":2026},"sun":{"d":22,"m":1,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":28,"m":1,"y":2026},"sun":{"d":1,"m":2,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":7,"m":2,"y":2026},"sun":{"d":8,"m":2,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":14,"m":2,"y":2026},"sun":{"d":15,"m":2,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":2,"y":2026},"sun":{"d":22,"m":2,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":28,"m":2,"y":2026},"sun":{"d":29,"m":2,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":4,"m":3,"y":2026},"sun":{"d":5,"m":3,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":11,"m":3,"y":2026},"sun":{"d":12,"m":3,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":18,"m":3,"y":2026},"sun":{"d":19,"m":3,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":25,"m":3,"y":2026},"sun":{"d":26,"m":3,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":2,"m":4,"y":2026},"sun":{"d":3,"m":4,"y":2026},"piloto":"JOSÉ","obs":"CUBRIÓ ALVARO","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":9,"m":4,"y":2026},"sun":{"d":10,"m":4,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":16,"m":4,"y":2026},"sun":{"d":17,"m":4,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":23,"m":4,"y":2026},"sun":{"d":24,"m":4,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":30,"m":4,"y":2026},"sun":{"d":31,"m":4,"y":2026},"piloto":"JOSÉ","obs":"OSMAR Y OLIVER","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":6,"m":5,"y":2026},"sun":{"d":7,"m":5,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":13,"m":5,"y":2026},"sun":{"d":14,"m":5,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":20,"m":5,"y":2026},"sun":{"d":21,"m":5,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":27,"m":5,"y":2026},"sun":{"d":28,"m":5,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":4,"m":6,"y":2026},"sun":{"d":5,"m":6,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":11,"m":6,"y":2026},"sun":{"d":12,"m":6,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":18,"m":6,"y":2026},"sun":{"d":19,"m":6,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":25,"m":6,"y":2026},"sun":{"d":26,"m":6,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":1,"m":7,"y":2026},"sun":{"d":2,"m":7,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":8,"m":7,"y":2026},"sun":{"d":9,"m":7,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":15,"m":7,"y":2026},"sun":{"d":16,"m":7,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":22,"m":7,"y":2026},"sun":{"d":23,"m":7,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":29,"m":7,"y":2026},"sun":{"d":30,"m":7,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":5,"m":8,"y":2026},"sun":{"d":6,"m":8,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":12,"m":8,"y":2026},"sun":{"d":13,"m":8,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":19,"m":8,"y":2026},"sun":{"d":20,"m":8,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":26,"m":8,"y":2026},"sun":{"d":27,"m":8,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":3,"m":9,"y":2026},"sun":{"d":4,"m":9,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":10,"m":9,"y":2026},"sun":{"d":11,"m":9,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":17,"m":9,"y":2026},"sun":{"d":18,"m":9,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":24,"m":9,"y":2026},"sun":{"d":25,"m":9,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":31,"m":9,"y":2026},"sun":{"d":1,"m":10,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":7,"m":10,"y":2026},"sun":{"d":8,"m":10,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":14,"m":10,"y":2026},"sun":{"d":15,"m":10,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":10,"y":2026},"sun":{"d":22,"m":10,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":28,"m":10,"y":2026},"sun":{"d":29,"m":10,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":5,"m":11,"y":2026},"sun":{"d":6,"m":11,"y":2026},"piloto":"WILSON","obs":"","sig":"JOSÉ","pilotsInfo":[{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":12,"m":11,"y":2026},"sun":{"d":13,"m":11,"y":2026},"piloto":"JOSÉ","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":19,"m":11,"y":2026},"sun":{"d":20,"m":11,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":26,"m":11,"y":2026},"sun":{"d":27,"m":11,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"JOSÉ","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]}];
+const WEEKENDS = [{"sat":{"d":3,"m":0,"y":2026},"sun":{"d":4,"m":0,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":10,"m":0,"y":2026},"sun":{"d":11,"m":0,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":17,"m":0,"y":2026},"sun":{"d":18,"m":0,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":24,"m":0,"y":2026},"sun":{"d":25,"m":0,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":31,"m":0,"y":2026},"sun":{"d":1,"m":1,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":7,"m":1,"y":2026},"sun":{"d":8,"m":1,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":14,"m":1,"y":2026},"sun":{"d":15,"m":1,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":1,"y":2026},"sun":{"d":22,"m":1,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":28,"m":1,"y":2026},"sun":{"d":1,"m":2,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":7,"m":2,"y":2026},"sun":{"d":8,"m":2,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":14,"m":2,"y":2026},"sun":{"d":15,"m":2,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":2,"y":2026},"sun":{"d":22,"m":2,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":28,"m":2,"y":2026},"sun":{"d":29,"m":2,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":4,"m":3,"y":2026},"sun":{"d":5,"m":3,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":11,"m":3,"y":2026},"sun":{"d":12,"m":3,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":18,"m":3,"y":2026},"sun":{"d":19,"m":3,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":25,"m":3,"y":2026},"sun":{"d":26,"m":3,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":2,"m":4,"y":2026},"sun":{"d":3,"m":4,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"CUBRIÓ ALVARO","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":9,"m":4,"y":2026},"sun":{"d":10,"m":4,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":16,"m":4,"y":2026},"sun":{"d":17,"m":4,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":23,"m":4,"y":2026},"sun":{"d":24,"m":4,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":30,"m":4,"y":2026},"sun":{"d":31,"m":4,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"OSMAR Y OLIVER","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":6,"m":5,"y":2026},"sun":{"d":7,"m":5,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":13,"m":5,"y":2026},"sun":{"d":14,"m":5,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":20,"m":5,"y":2026},"sun":{"d":21,"m":5,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":27,"m":5,"y":2026},"sun":{"d":28,"m":5,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":4,"m":6,"y":2026},"sun":{"d":5,"m":6,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":11,"m":6,"y":2026},"sun":{"d":12,"m":6,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":18,"m":6,"y":2026},"sun":{"d":19,"m":6,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":25,"m":6,"y":2026},"sun":{"d":26,"m":6,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":1,"m":7,"y":2026},"sun":{"d":2,"m":7,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":8,"m":7,"y":2026},"sun":{"d":9,"m":7,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":15,"m":7,"y":2026},"sun":{"d":16,"m":7,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":22,"m":7,"y":2026},"sun":{"d":23,"m":7,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":29,"m":7,"y":2026},"sun":{"d":30,"m":7,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":5,"m":8,"y":2026},"sun":{"d":6,"m":8,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":12,"m":8,"y":2026},"sun":{"d":13,"m":8,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":19,"m":8,"y":2026},"sun":{"d":20,"m":8,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":26,"m":8,"y":2026},"sun":{"d":27,"m":8,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":3,"m":9,"y":2026},"sun":{"d":4,"m":9,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":10,"m":9,"y":2026},"sun":{"d":11,"m":9,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":17,"m":9,"y":2026},"sun":{"d":18,"m":9,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":24,"m":9,"y":2026},"sun":{"d":25,"m":9,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":31,"m":9,"y":2026},"sun":{"d":1,"m":10,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":7,"m":10,"y":2026},"sun":{"d":8,"m":10,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":14,"m":10,"y":2026},"sun":{"d":15,"m":10,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":21,"m":10,"y":2026},"sun":{"d":22,"m":10,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":28,"m":10,"y":2026},"sun":{"d":29,"m":10,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]},{"sat":{"d":5,"m":11,"y":2026},"sun":{"d":6,"m":11,"y":2026},"piloto":"WILSON","obs":"","sig":"OSMAR Y OLIVER","pilotsInfo":[{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"descansa"}]},{"sat":{"d":12,"m":11,"y":2026},"sun":{"d":13,"m":11,"y":2026},"piloto":"OSMAR Y OLIVER","obs":"","sig":"ALDRIN","pilotsInfo":[{"name":"WILSON","turno":"descansa"},{"name":"ALDRIN","turno":"sabado"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":19,"m":11,"y":2026},"sun":{"d":20,"m":11,"y":2026},"piloto":"ALDRIN","obs":"","sig":"ALVARO","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"descansa"},{"name":"ALVARO","turno":"sabado"}]},{"sat":{"d":26,"m":11,"y":2026},"sun":{"d":27,"m":11,"y":2026},"piloto":"ALVARO","obs":"","sig":"WILSON","pilotsInfo":[{"name":"WILSON","turno":"sabado"},{"name":"OSMAR Y OLIVER","turno":"sabado"},{"name":"ALDRIN","turno":"descansa"}]}];
 
 // ════════════════════════════════════════
 // LÓGICA DE HORARIOS
@@ -282,12 +344,12 @@ function wilsonSalida(date) {
   return diff % 2 === 0 ? '6PM' : '9PM';
 }
 
-// Alvaro/José turno nocturno: mié 17 jun = José, jue 18 = Alvaro, vie 19 = José, lun 22 = Alvaro...
-// Referencia: 17/jun/2026 (mié) = José (índice 0)
-const NOCTURNO_REF = new Date(2026, 5, 17); // mié 17 jun = José
+// Alvaro/Osmar y Oliver turno nocturno: mié 17 jun = Osmar y Oliver, jue 18 = Alvaro, vie 19 = Osmar y Oliver, lun 22 = Alvaro...
+// Referencia: 17/jun/2026 (mié) = Osmar y Oliver (índice 0)
+const NOCTURNO_REF = new Date(2026, 5, 17); // mié 17 jun = Osmar y Oliver
 function nocturnoDelDia(date) {
   const diff = Math.round((date - NOCTURNO_REF) / 86400000);
-  return diff % 2 === 0 ? 'JOSÉ' : 'ALVARO';
+  return diff % 2 === 0 ? 'OSMAR Y OLIVER' : 'ALVARO';
 }
 
 // ¿El viernes es el anterior al finde en que alguien descansa?
@@ -341,7 +403,7 @@ function switchTab(n) {
   if (fut) { currentMonth = fut.sat.m; currentYear = fut.sat.y; }
 })();
 
-function cap(s) { return String(s).toLowerCase().replace(/\b\w/g, c => c.toUpperCase()); }
+function cap(s) { return String(s).toLowerCase().replace(/\b\w/g, c => c.toUpperCase()).replace(/ Y /g, ' y '); }
 
 function changeMonth(dir) {
   currentMonth += dir;
@@ -388,7 +450,7 @@ function renderMonth() {
       <div class="wc-body">
         <div class="wc-cubre">
           <div class="wc-cubre-label">Fin de semana completo</div>
-          <div class="wc-cubre-name">${cap(w.piloto)}</div>
+          <div class="wc-cubre-name${cap(w.piloto).length > 8 ? ' long-name' : ''}">${cap(w.piloto)}</div>
           <div class="wc-cubre-detail">Sábado completo · Domingo completo</div>
         </div>
         <div class="wc-rest">
@@ -430,15 +492,14 @@ function renderWeek() {
   // Nota de turno nocturno
   const nocLun = nocturnoDelDia(days[0]);
   document.getElementById('week-note').innerHTML =
-    `<strong>Turno nocturno esta semana:</strong> José y Alvaro se alternan día a día — el lunes le toca a <strong>${cap(nocLun)}</strong>.`;
+    `<strong>Turno nocturno esta semana:</strong> Osmar y Oliver y Alvaro se alternan día a día — el lunes le toca a <strong>${cap(nocLun)}</strong>.`;
 
   // Pilotos y su lógica por día
   const pilotos = [
-    { name: 'Wilson',  color: '#1F5C9E' },
-    { name: 'Aldrin',  color: '#2E7D32' },
-    { name: 'José',    color: '#6B3FA0' },
-    { name: 'Alvaro',  color: '#6B3FA0' },
-    { name: 'Kevin',   color: '#C8860A' },
+    { name: 'Wilson',        color: '#1F5C9E' },
+    { name: 'Aldrin',        color: '#2E7D32' },
+    { name: 'Osmar y Oliver', color: '#6B3FA0' },
+    { name: 'Alvaro',        color: '#6B3FA0' },
   ];
 
   function getSalida(piloto, date, dayIdx) {
@@ -457,21 +518,14 @@ function renderWeek() {
       return badge('h-7pm', '7PM');
     }
 
-    if (name === 'JOSÉ') {
-      const esNocturno = nocturnoDelDia(date) === 'JOSÉ';
+    if (name === 'OSMAR Y OLIVER') {
+      const esNocturno = nocturnoDelDia(date) === 'OSMAR Y OLIVER';
       return esNocturno ? badge('h-nocturno', 'Cubre') : badge('h-off', 'Turno normal');
     }
 
     if (name === 'ALVARO') {
       const esNocturno = nocturnoDelDia(date) === 'ALVARO';
       return esNocturno ? badge('h-nocturno', 'Cubre') : badge('h-off', 'Turno normal');
-    }
-
-    if (name === 'KEVIN') {
-      // Lun=9PM, Mar=7PM, Mié=9PM, Jue=7PM, Vie=9PM
-      const horas = ['h-9pm','h-7pm','h-9pm','h-7pm','h-9pm'];
-      const labels = ['9PM','7PM','9PM','7PM','9PM'];
-      return badge(horas[dayIdx], labels[dayIdx]);
     }
 
     return '';
@@ -505,19 +559,19 @@ function renderWeek() {
 // PESTAÑA 3: CALENDARIO
 // ════════════════════════════════════════
 const WE_RAW_CAL = [
-  [2026,1,3,"WILSON","ALVARO"],[2026,1,10,"JOSÉ","WILSON"],[2026,1,17,"ALDRIN","JOSÉ"],[2026,1,24,"ALVARO","ALDRIN"],
-  [2026,1,31,"WILSON","ALVARO"],[2026,2,7,"JOSÉ","WILSON"],[2026,2,14,"ALDRIN","JOSÉ"],[2026,2,21,"ALVARO","ALDRIN"],
-  [2026,2,28,"WILSON","ALVARO"],[2026,3,7,"JOSÉ","WILSON"],[2026,3,14,"ALDRIN","JOSÉ"],[2026,3,21,"ALVARO","ALDRIN"],
-  [2026,3,28,"WILSON","ALVARO"],[2026,4,4,"JOSÉ","WILSON"],[2026,4,11,"ALDRIN","JOSÉ"],[2026,4,18,"ALVARO","ALDRIN"],
-  [2026,4,25,"WILSON","ALVARO"],[2026,5,2,"JOSÉ","WILSON"],[2026,5,9,"ALDRIN","JOSÉ"],[2026,5,16,"ALVARO","ALDRIN"],
-  [2026,5,23,"WILSON","ALVARO"],[2026,5,30,"JOSÉ","WILSON"],[2026,6,6,"ALDRIN","JOSÉ"],[2026,6,13,"ALVARO","ALDRIN"],
-  [2026,6,20,"WILSON","ALVARO"],[2026,6,27,"JOSÉ","WILSON"],[2026,7,4,"ALDRIN","JOSÉ"],[2026,7,11,"ALVARO","ALDRIN"],
-  [2026,7,18,"WILSON","ALVARO"],[2026,7,25,"JOSÉ","WILSON"],[2026,8,1,"ALDRIN","JOSÉ"],[2026,8,8,"ALVARO","ALDRIN"],
-  [2026,8,15,"WILSON","ALVARO"],[2026,8,22,"JOSÉ","WILSON"],[2026,8,29,"ALDRIN","JOSÉ"],[2026,9,5,"ALVARO","ALDRIN"],
-  [2026,9,12,"WILSON","ALVARO"],[2026,9,19,"JOSÉ","WILSON"],[2026,9,26,"ALDRIN","JOSÉ"],[2026,10,3,"ALVARO","ALDRIN"],
-  [2026,10,10,"WILSON","ALVARO"],[2026,10,17,"JOSÉ","WILSON"],[2026,10,24,"ALDRIN","JOSÉ"],[2026,10,31,"ALVARO","ALDRIN"],
-  [2026,11,7,"WILSON","ALVARO"],[2026,11,14,"JOSÉ","WILSON"],[2026,11,21,"ALDRIN","JOSÉ"],[2026,11,28,"ALVARO","ALDRIN"],
-  [2026,12,5,"WILSON","ALVARO"],[2026,12,12,"JOSÉ","WILSON"],[2026,12,19,"ALDRIN","JOSÉ"],[2026,12,26,"ALVARO","ALDRIN"],
+  [2026,1,3,"WILSON","ALVARO"],[2026,1,10,"OSMAR Y OLIVER","WILSON"],[2026,1,17,"ALDRIN","OSMAR Y OLIVER"],[2026,1,24,"ALVARO","ALDRIN"],
+  [2026,1,31,"WILSON","ALVARO"],[2026,2,7,"OSMAR Y OLIVER","WILSON"],[2026,2,14,"ALDRIN","OSMAR Y OLIVER"],[2026,2,21,"ALVARO","ALDRIN"],
+  [2026,2,28,"WILSON","ALVARO"],[2026,3,7,"OSMAR Y OLIVER","WILSON"],[2026,3,14,"ALDRIN","OSMAR Y OLIVER"],[2026,3,21,"ALVARO","ALDRIN"],
+  [2026,3,28,"WILSON","ALVARO"],[2026,4,4,"OSMAR Y OLIVER","WILSON"],[2026,4,11,"ALDRIN","OSMAR Y OLIVER"],[2026,4,18,"ALVARO","ALDRIN"],
+  [2026,4,25,"WILSON","ALVARO"],[2026,5,2,"OSMAR Y OLIVER","WILSON"],[2026,5,9,"ALDRIN","OSMAR Y OLIVER"],[2026,5,16,"ALVARO","ALDRIN"],
+  [2026,5,23,"WILSON","ALVARO"],[2026,5,30,"OSMAR Y OLIVER","WILSON"],[2026,6,6,"ALDRIN","OSMAR Y OLIVER"],[2026,6,13,"ALVARO","ALDRIN"],
+  [2026,6,20,"WILSON","ALVARO"],[2026,6,27,"OSMAR Y OLIVER","WILSON"],[2026,7,4,"ALDRIN","OSMAR Y OLIVER"],[2026,7,11,"ALVARO","ALDRIN"],
+  [2026,7,18,"WILSON","ALVARO"],[2026,7,25,"OSMAR Y OLIVER","WILSON"],[2026,8,1,"ALDRIN","OSMAR Y OLIVER"],[2026,8,8,"ALVARO","ALDRIN"],
+  [2026,8,15,"WILSON","ALVARO"],[2026,8,22,"OSMAR Y OLIVER","WILSON"],[2026,8,29,"ALDRIN","OSMAR Y OLIVER"],[2026,9,5,"ALVARO","ALDRIN"],
+  [2026,9,12,"WILSON","ALVARO"],[2026,9,19,"OSMAR Y OLIVER","WILSON"],[2026,9,26,"ALDRIN","OSMAR Y OLIVER"],[2026,10,3,"ALVARO","ALDRIN"],
+  [2026,10,10,"WILSON","ALVARO"],[2026,10,17,"OSMAR Y OLIVER","WILSON"],[2026,10,24,"ALDRIN","OSMAR Y OLIVER"],[2026,10,31,"ALVARO","ALDRIN"],
+  [2026,11,7,"WILSON","ALVARO"],[2026,11,14,"OSMAR Y OLIVER","WILSON"],[2026,11,21,"ALDRIN","OSMAR Y OLIVER"],[2026,11,28,"ALVARO","ALDRIN"],
+  [2026,12,5,"WILSON","ALVARO"],[2026,12,12,"OSMAR Y OLIVER","WILSON"],[2026,12,19,"ALDRIN","OSMAR Y OLIVER"],[2026,12,26,"ALVARO","ALDRIN"],
 ];
 
 const CAL_EVT = {}, CAL_SAT = {}, CAL_SUN = {};
@@ -526,7 +580,7 @@ function dkey(d){ return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; }
 
 WE_RAW_CAL.forEach(([y,m,day,cubre,descansa])=>{
   const sat=new Date(y,m-1,day), sun=new Date(y,m-1,day+1), fri=new Date(y,m-1,day-1);
-  const otros=["WILSON","JOSÉ","ALDRIN","ALVARO"].filter(p=>p!==cubre).map(p=>({name:cap(p),turno:p===descansa?'descansa':'sabado'}));
+  const otros=["WILSON","OSMAR Y OLIVER","ALDRIN","ALVARO"].filter(p=>p!==cubre).map(p=>({name:cap(p),turno:p===descansa?'descansa':'sabado'}));
   CAL_SAT[dkey(sat)]={cubre:cap(cubre),otros};
   CAL_SUN[dkey(sun)]={cubre:cap(cubre)};
   const k=dkey(fri); if(!CAL_EVT[k]) CAL_EVT[k]=[]; CAL_EVT[k].push({text:`⏰ ${cap(descansa)}: sale 9PM`,cls:'ev-9pm'});
@@ -567,9 +621,10 @@ function renderCal(){
     if(!isOther){
       if(isSat&&CAL_SAT[k]){
       const we=CAL_SAT[k];
-      inner+=`<div class="we-name">${we.cubre}</div>`+we.otros.map(p=>`<div class="we-pilot-row"><div class="we-pilot-name">${p.name}</div><div class="we-badge ${p.turno==='sabado'?'badge-sabado':'badge-descansa'}">${p.turno==='sabado'?'Sáb 5PM':'Descansa'}</div></div>`).join('');
+      inner+=`<div class="we-name${we.cubre.length > 8 ? ' long-name' : ''}">${we.cubre}</div>`+we.otros.map(p=>`<div class="we-pilot-row"><div class="we-pilot-name">${p.name}</div><div class="we-badge ${p.turno==='sabado'?'badge-sabado':'badge-descansa'}">${p.turno==='sabado'?'Sáb 5PM':'Descansa'}</div></div>`).join('');
     } else if(isSun&&CAL_SUN[k]){
-      inner+=`<div class="we-name">${CAL_SUN[k].cubre}</div><div class="we-pilot-row"><div class="we-badge badge-turno">Turno completo</div></div>`;
+      const sunCubre=CAL_SUN[k].cubre;
+      inner+=`<div class="we-name${sunCubre.length > 8 ? ' long-name' : ''}">${sunCubre}</div><div class="we-pilot-row"><div class="we-badge badge-turno">Turno completo</div></div>`;
       } else {
         inner+=(CAL_EVT[k]||[]).map(e=>`<div class="ev ${e.cls}">${e.text}</div>`).join('');
       }
