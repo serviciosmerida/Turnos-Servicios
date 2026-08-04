@@ -158,24 +158,6 @@
   }
   .week-note strong { color: var(--black); }
 
-  .btn-pdf {
-    margin-left: auto;
-    background: var(--olive); color: #fff;
-    border: none; border-radius: 8px;
-    padding: .45rem 1rem; font-size: .78rem; font-weight: 600;
-    cursor: pointer; display: flex; align-items: center; gap: .4rem;
-    transition: background .15s; white-space: nowrap;
-  }
-  .btn-pdf:hover { background: #3a4132; }
-
-  @media print {
-    .topbar, .tabs-bar, .nav-bar, .week-nav-bar, .btn-pdf, .nav-legend, .legend { display: none !important; }
-    body { background: #fff; }
-    .content { padding: 0.5rem; max-width: 100% !important; }
-    #tab-0, #tab-1, #tab-2 { display: block !important; }
-    #tab-0.hide-print, #tab-1.hide-print, #tab-2.hide-print { display: none !important; }
-  }
-
   /* ── Pestaña 3: Calendario ── */
   .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); border:1.5px solid var(--gray-mid); border-radius:14px; overflow:hidden; background:#fff; }
   .cal-header { background:var(--black); color:#fff; text-align:center; padding:.55rem .25rem; font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
@@ -198,10 +180,45 @@
   .badge-descansa { background:var(--gray-light);  color:var(--gray-text); }
   .badge-turno    { background:var(--olive-light); color:var(--olive); }
 
-  /* ── Scroll horizontal para grillas anchas en móvil ── */
+  /* ── Scroll horizontal para grillas anchas (escritorio/tablet) ── */
   .grid-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -1rem; padding: 0 1rem; }
   .grid-scroll::-webkit-scrollbar { height: 6px; }
   .grid-scroll::-webkit-scrollbar-thumb { background: var(--gray-mid); border-radius: 10px; }
+
+  /* ── Vista vertical (móvil) — Horarios semanales ── */
+  .week-cards { display: none; flex-direction: column; gap: .8rem; }
+  .week-day-card { background: #fff; border: 1.5px solid var(--gray-light); border-radius: 14px; overflow: hidden; }
+  .week-day-header {
+    background: var(--black); color: #fff; padding: .6rem 1rem;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 1.5px;
+  }
+  .week-day-header.today { background: var(--olive); }
+  .week-day-body { padding: .2rem 1rem; }
+  .week-pilot-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: .6rem 0; border-bottom: 1px solid var(--gray-light);
+  }
+  .week-pilot-row:last-child { border-bottom: none; }
+  .week-pilot-name { font-weight: 600; font-size: .85rem; }
+
+  /* ── Vista vertical (móvil) — Calendario mensual ── */
+  .cal-list { display: none; flex-direction: column; gap: .55rem; }
+  .cal-list-day {
+    background: #fff; border: 1.5px solid var(--gray-light); border-radius: 12px;
+    padding: .7rem .9rem; display: flex; gap: .8rem; align-items: flex-start;
+  }
+  .cal-list-day.weekend { background: var(--cream); }
+  .cal-list-day.today { border-color: var(--amber); background: #FFFBF0; }
+  .cl-date { display: flex; flex-direction: column; align-items: center; min-width: 42px; flex: 0 0 auto; }
+  .cl-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; line-height: 1; color: var(--black); }
+  .cal-list-day.today .cl-num { color: var(--amber); }
+  .cl-dow { font-size: .58rem; text-transform: uppercase; letter-spacing: .5px; color: var(--gray-text); margin-top: .15rem; }
+  .cl-body { flex: 1 1 auto; display: flex; flex-direction: column; gap: .3rem; min-width: 0; }
+  .cl-cubre { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; color: var(--olive); display: flex; align-items: baseline; gap: .45rem; flex-wrap: wrap; }
+  .cl-cubre-label { font-family: 'Inter', sans-serif; font-size: .65rem; font-weight: 600; color: var(--gray-text); }
+  .cl-empty { font-size: .72rem; color: var(--gray-mid); font-style: italic; }
+  .cal-list .we-pilot-name { font-size: .74rem; }
+  .cal-list .we-badge { font-size: .64rem; }
 
   /* ══════════════════════════════════════════
      RESPONSIVE — TABLET Y MÓVIL
@@ -219,9 +236,8 @@
     }
     .nav-month, .week-label { font-size: 1.15rem; min-width: 0; flex: 1 1 auto; text-align: center; letter-spacing: 1px; }
     .nav-arrow { width: 30px; height: 30px; flex: 0 0 auto; }
-    .nav-legend { order: 3; width: 100%; margin-left: 0; justify-content: center; gap: .7rem; }
+    .nav-legend { width: 100%; margin-left: 0; justify-content: center; gap: .7rem; }
     .legend-item { font-size: .68rem; }
-    .btn-pdf { order: 2; margin-left: 0; padding: .4rem .8rem; font-size: .72rem; }
 
     .content { padding: 1rem .85rem 2.5rem; }
 
@@ -232,18 +248,14 @@
     .wc-cubre-name { font-size: 1.9rem; }
     .wc-cubre-name.long-name { font-size: 1.25rem; }
 
-    /* Horarios semanales: columna de piloto más angosta + scroll horizontal en .grid-scroll */
-    .week-grid { grid-template-columns: 88px repeat(5, 100px); }
-    .wg-cell { padding: .55rem .5rem; font-size: .74rem; }
-    .wg-header { font-size: .62rem; padding: .5rem .4rem; }
-    .wg-pilot-label { font-size: .7rem; }
-    .hour-badge { font-size: .66rem; padding: .15rem .45rem; }
+    /* Horarios semanales: ocultar la grilla horizontal y mostrar tarjetas verticales */
+    #week-grid-wrap { display: none; }
+    .week-cards { display: flex; }
     .week-note { font-size: .72rem; padding: .65rem .85rem; }
 
-    /* Calendario mensual: mantener 7 columnas legibles con scroll horizontal */
-    .cal-grid { grid-template-columns: repeat(7, 108px); }
-    .cal-day { min-height: 96px; padding: .35rem .35rem; }
-    .cal-header { font-size: .62rem; padding: .45rem .2rem; }
+    /* Calendario mensual: ocultar la grilla de 7 columnas y mostrar lista vertical */
+    #cal-grid-wrap { display: none; }
+    .cal-list { display: flex; }
     #cal-month-title { font-size: 1.6rem; }
   }
 
@@ -285,7 +297,6 @@
       <div class="legend-item"><div class="legend-dot" style="background:var(--blue)"></div>Sábado hasta 5PM</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--gray-mid)"></div>Descansa</div>
     </div>
-    <button class="btn-pdf" onclick="printTab(0)">🖨 Exportar PDF</button>
   </div>
   <div class="content" id="calendar-content"></div>
 </div>
@@ -296,11 +307,11 @@
     <button class="nav-arrow" onclick="changeMonthCal(-1)">‹</button>
     <div class="nav-month" id="cal-month-label"></div>
     <button class="nav-arrow" onclick="changeMonthCal(1)">›</button>
-    <button class="btn-pdf" onclick="printTab(2)">🖨 Exportar PDF</button>
   </div>
   <div class="content" style="max-width:1100px">
     <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:3px;color:var(--olive);margin-bottom:1rem" id="cal-month-title"></div>
-    <div class="grid-scroll"><div class="cal-grid" id="cal-grid"></div></div>
+    <div class="grid-scroll" id="cal-grid-wrap"><div class="cal-grid" id="cal-grid"></div></div>
+    <div class="cal-list" id="cal-list"></div>
     <div class="legend" style="margin-top:1.2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
       <div class="legend-item"><div class="legend-dot" style="background:var(--olive-light);border:1px solid var(--olive);border-radius:3px;width:10px;height:10px"></div>Cubre fin de semana completo</div>
       <div class="legend-item"><div class="legend-dot" style="background:var(--blue-light);border:1px solid var(--blue);border-radius:3px;width:10px;height:10px"></div>Sábado hasta 5PM</div>
@@ -314,11 +325,11 @@
     <button class="nav-arrow" onclick="changeWeek(-1)">‹</button>
     <div class="week-label" id="week-label"></div>
     <button class="nav-arrow" onclick="changeWeek(1)">›</button>
-    <button class="btn-pdf" onclick="printTab(1)">🖨 Exportar PDF</button>
   </div>
   <div class="content">
     <div class="week-note" id="week-note"></div>
-    <div class="grid-scroll"><div class="week-grid" id="week-grid"></div></div>
+    <div class="grid-scroll" id="week-grid-wrap"><div class="week-grid" id="week-grid"></div></div>
+    <div class="week-cards" id="week-cards"></div>
   </div>
 </div>
 
@@ -553,6 +564,24 @@ function renderWeek() {
   });
 
   document.getElementById('week-grid').innerHTML = html;
+
+  // ── Vista vertical para móvil (una tarjeta por día) ──
+  let cardsHtml = '';
+  days.forEach((d, i) => {
+    const isToday = todayCols[i];
+    const label = d.toLocaleDateString('es-GT', { weekday:'long', day:'numeric', month:'short' });
+    cardsHtml += `<div class="week-day-card">
+      <div class="week-day-header${isToday ? ' today' : ''}">${cap(label)}${isToday ? ' · Hoy' : ''}</div>
+      <div class="week-day-body">
+        ${pilotos.map(p => `
+          <div class="week-pilot-row">
+            <div class="week-pilot-name" style="color:${p.color}">${p.name}</div>
+            <div>${getSalida(p, d, i)}</div>
+          </div>`).join('')}
+      </div>
+    </div>`;
+  });
+  document.getElementById('week-cards').innerHTML = cardsHtml;
 }
 
 // ════════════════════════════════════════
@@ -632,22 +661,33 @@ function renderCal(){
     html+=`<div class="${cls}">${inner}</div>`;
   }
   grid.innerHTML=html;
-}
 
-// ════════════════════════════════════════
-// PDF
-// ════════════════════════════════════════
-function printTab(tab) {
-  [0,1,2].forEach(i => {
-    const el = document.getElementById('tab-'+i);
-    if (el) el.classList.toggle('hide-print', i !== tab);
-  });
-  window.print();
-  // Restaurar después de imprimir
-  setTimeout(() => [0,1,2].forEach(i => {
-    const el = document.getElementById('tab-'+i);
-    if (el) el.classList.remove('hide-print');
-  }), 500);
+  // ── Vista vertical para móvil (lista día por día) ──
+  const DOWNAMES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
+  let listHtml='';
+  for(let day=1; day<=daysInMonth; day++){
+    const d=new Date(calYear,calMonth,day);
+    const isToday=d.getTime()===today.getTime();
+    const dow2=d.getDay(), isSat=dow2===6, isSun=dow2===0;
+    const k=dkey(d);
+    let body='';
+    if(isSat&&CAL_SAT[k]){
+      const we=CAL_SAT[k];
+      body=`<div class="cl-cubre">${we.cubre}<span class="cl-cubre-label">cubre el fin de semana</span></div>`+
+        we.otros.map(p=>`<div class="we-pilot-row"><div class="we-pilot-name">${p.name}</div><div class="we-badge ${p.turno==='sabado'?'badge-sabado':'badge-descansa'}">${p.turno==='sabado'?'Sáb 5PM':'Descansa'}</div></div>`).join('');
+    } else if(isSun&&CAL_SUN[k]){
+      body=`<div class="cl-cubre">${CAL_SUN[k].cubre}<span class="cl-cubre-label">turno completo</span></div>`;
+    } else {
+      const evts=CAL_EVT[k]||[];
+      body = evts.length ? evts.map(e=>`<div class="ev ${e.cls}">${e.text}</div>`).join('') : `<div class="cl-empty">Sin novedades</div>`;
+    }
+    listHtml+=`<div class="cal-list-day${isToday?' today':''}${isSat||isSun?' weekend':''}">
+      <div class="cl-date"><span class="cl-num">${day}</span><span class="cl-dow">${DOWNAMES[dow2]}</span></div>
+      <div class="cl-body">${body}</div>
+    </div>`;
+  }
+  document.getElementById('cal-list').innerHTML=listHtml;
 }
 
 // ════════════════════════════════════════
