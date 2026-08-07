@@ -348,7 +348,7 @@ const WEEKENDS = [{"sat":{"d":3,"m":0,"y":2026},"sun":{"d":4,"m":0,"y":2026},"pi
 
 // Wilson: vie 19 jun = 6PM → lun 22 jun = 9PM, mar = 6PM, ...
 // Referencia: 19/jun/2026 (viernes) = 6PM
-const WILSON_REF_DATE = new Date(2026, 5, 19); // viernes 19 jun = 6PM (índice 0 = 6PM)
+const WILSON_REF_DATE = new Date(2026, 7, 5); // miércoles 5 ago = 6PM (índice 0 = 6PM), confirmado: jueves 6 ago = 9PM
 function wilsonSalida(date) {
   const diff = Math.round((date - WILSON_REF_DATE) / 86400000);
   // 0=6PM, 1=9PM, 2=6PM... alterna cada día
