@@ -134,7 +134,8 @@
     display: flex; align-items: center;
     border-right: 1.5px solid var(--gray-mid);
   }
-  .wg-cell.today-col { background: #fffdf5; }
+  .wg-cell.today-col { background: var(--amber-light); border-left: 2px solid var(--amber); border-right: 2px solid var(--amber); }
+  .wg-header.today-col { background: var(--amber) !important; color: #1A1A1A !important; font-weight: 700; }
 
   .hour-badge {
     display: inline-block;
@@ -150,28 +151,6 @@
   .h-nocturno { background: var(--purple-light); color: var(--purple); }
   .h-off  { background: var(--gray-light);  color: #bbb; font-style: italic; }
 
-  /* ── Pestaña 3: Calendario ── */
-  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); border:1.5px solid var(--gray-mid); border-radius:14px; overflow:hidden; background:#fff; }
-  .cal-header { background:var(--black); color:#fff; text-align:center; padding:.55rem .25rem; font-size:.72rem; font-weight:600; text-transform:uppercase; letter-spacing:1px; }
-  .cal-header.weekend { background:var(--olive); }
-  .cal-day { min-height:110px; border-right:1px solid var(--gray-light); border-bottom:1px solid var(--gray-light); padding:.4rem .45rem; }
-  .cal-day:nth-child(7n) { border-right:none; }
-  .cal-day.other-month { background:#F0EEE9; }
-  .cal-day.cal-today { background:#FFFBF0; }
-  .day-num { font-family:'Bebas Neue',sans-serif; font-size:1.15rem; line-height:1; color:var(--gray-text); margin-bottom:.3rem; }
-  .cal-day.cal-today .day-num { color:var(--amber); font-size:1.3rem; }
-  .cal-day.other-month .day-num { color:#ccc; }
-  .ev { font-size:.64rem; font-weight:600; border-radius:5px; padding:.18rem .35rem; margin-bottom:.2rem; line-height:1.3; word-break:break-word; }
-  .ev-9pm { background:var(--amber-light); color:var(--amber); border:1px solid var(--amber); }
-  .we-name { font-family:'Bebas Neue',sans-serif; font-size:1.5rem; line-height:1; color:var(--olive); margin-bottom:.3rem; word-break:break-word; }
-  .we-name.long-name { font-size:.85rem; letter-spacing:.2px; }
-  .we-pilot-row { display:flex; align-items:center; justify-content:space-between; gap:.25rem; margin-bottom:.15rem; flex-wrap:wrap; }
-  .we-pilot-name { font-size:.65rem; font-weight:600; color:var(--black); word-break:break-word; }
-  .we-badge { font-size:.58rem; font-weight:600; padding:.12rem .4rem; border-radius:20px; white-space:nowrap; }
-  .badge-sabado   { background:var(--blue-light);  color:var(--blue); }
-  .badge-descansa { background:var(--gray-light);  color:var(--gray-text); }
-  .badge-turno    { background:var(--olive-light); color:var(--olive); }
-
   /* ── Scroll horizontal para grillas anchas (escritorio/tablet) ── */
   .grid-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -1rem; padding: 0 1rem; }
   .grid-scroll::-webkit-scrollbar { height: 6px; }
@@ -180,11 +159,17 @@
   /* ── Vista vertical (móvil) — Horarios semanales ── */
   .week-cards { display: none; flex-direction: column; gap: .8rem; }
   .week-day-card { background: #fff; border: 1.5px solid var(--gray-light); border-radius: 14px; overflow: hidden; }
+  .week-day-card.today-card { border: 2px solid var(--amber); box-shadow: 0 2px 10px rgba(200,134,10,.25); }
   .week-day-header {
     background: var(--black); color: #fff; padding: .6rem 1rem;
     font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 1.5px;
   }
-  .week-day-header.today { background: var(--olive); }
+  .week-day-header.today { background: var(--amber); color: #1A1A1A; }
+  .week-day-header .hoy-pill {
+    display: inline-block; background: #1A1A1A; color: var(--amber);
+    font-family: 'Inter', sans-serif; font-size: .62rem; font-weight: 700;
+    letter-spacing: .5px; padding: .12rem .5rem; border-radius: 20px; margin-left: .5rem; vertical-align: middle;
+  }
   .week-day-body { padding: .2rem 1rem; }
   .week-pilot-row {
     display: flex; align-items: center; justify-content: space-between;
@@ -192,25 +177,6 @@
   }
   .week-pilot-row:last-child { border-bottom: none; }
   .week-pilot-name { font-weight: 600; font-size: .85rem; }
-
-  /* ── Vista vertical (móvil) — Calendario mensual ── */
-  .cal-list { display: none; flex-direction: column; gap: .55rem; }
-  .cal-list-day {
-    background: #fff; border: 1.5px solid var(--gray-light); border-radius: 12px;
-    padding: .7rem .9rem; display: flex; gap: .8rem; align-items: flex-start;
-  }
-  .cal-list-day.weekend { background: var(--cream); }
-  .cal-list-day.today { border-color: var(--amber); background: #FFFBF0; }
-  .cl-date { display: flex; flex-direction: column; align-items: center; min-width: 42px; flex: 0 0 auto; }
-  .cl-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; line-height: 1; color: var(--black); }
-  .cal-list-day.today .cl-num { color: var(--amber); }
-  .cl-dow { font-size: .58rem; text-transform: uppercase; letter-spacing: .5px; color: var(--gray-text); margin-top: .15rem; }
-  .cl-body { flex: 1 1 auto; display: flex; flex-direction: column; gap: .3rem; min-width: 0; }
-  .cl-cubre { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; color: var(--olive); display: flex; align-items: baseline; gap: .45rem; flex-wrap: wrap; }
-  .cl-cubre-label { font-family: 'Inter', sans-serif; font-size: .65rem; font-weight: 600; color: var(--gray-text); }
-  .cl-empty { font-size: .72rem; color: var(--gray-mid); font-style: italic; }
-  .cal-list .we-pilot-name { font-size: .74rem; }
-  .cal-list .we-badge { font-size: .64rem; }
 
   /* ══════════════════════════════════════════
      RESPONSIVE — TABLET Y MÓVIL
@@ -243,11 +209,6 @@
     /* Horarios semanales: ocultar la grilla horizontal y mostrar tarjetas verticales */
     #week-grid-wrap { display: none; }
     .week-cards { display: flex; }
-
-    /* Calendario mensual: ocultar la grilla de 7 columnas y mostrar lista vertical */
-    #cal-grid-wrap { display: none; }
-    .cal-list { display: flex; }
-    #cal-month-title { font-size: 1.6rem; }
   }
 
   @media (max-width: 480px) {
@@ -274,7 +235,6 @@
 <div class="tabs-bar">
   <button class="tab-btn active" onclick="switchTab(0)">📅 Fines de semana</button>
   <button class="tab-btn"        onclick="switchTab(1)">🕐 Horarios semanales</button>
-  <button class="tab-btn"        onclick="switchTab(2)">📆 Calendario</button>
 </div>
 
 <!-- ══ PESTAÑA 1: Fines de semana ══ -->
@@ -292,25 +252,6 @@
   <div class="content" id="calendar-content"></div>
 </div>
 
-<!-- ══ PESTAÑA 3: Calendario ══ -->
-<div id="tab-2" style="display:none">
-  <div class="nav-bar">
-    <button class="nav-arrow" onclick="changeMonthCal(-1)">‹</button>
-    <div class="nav-month" id="cal-month-label"></div>
-    <button class="nav-arrow" onclick="changeMonthCal(1)">›</button>
-  </div>
-  <div class="content" style="max-width:1100px">
-    <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:3px;color:var(--olive);margin-bottom:1rem" id="cal-month-title"></div>
-    <div class="grid-scroll" id="cal-grid-wrap"><div class="cal-grid" id="cal-grid"></div></div>
-    <div class="cal-list" id="cal-list"></div>
-    <div class="legend" style="margin-top:1.2rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
-      <div class="legend-item"><div class="legend-dot" style="background:var(--olive-light);border:1px solid var(--olive);border-radius:3px;width:10px;height:10px"></div>Cubre fin de semana completo</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--blue-light);border:1px solid var(--blue);border-radius:3px;width:10px;height:10px"></div>Sábado hasta 5PM</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--gray-light);border:1px solid var(--gray-mid);border-radius:3px;width:10px;height:10px"></div>Descansa</div>
-      <div class="legend-item"><div class="legend-dot" style="background:var(--amber-light);border:1px solid var(--amber);border-radius:3px;width:10px;height:10px"></div>Sale 9PM ese viernes</div>
-    </div>
-  </div>
-</div>
 <div id="tab-1" style="display:none">
   <div class="week-nav-bar">
     <button class="nav-arrow" onclick="changeWeek(-1)">‹</button>
@@ -390,9 +331,7 @@ function switchTab(n) {
   document.querySelectorAll('.tab-btn').forEach((b,i) => b.classList.toggle('active', i===n));
   document.getElementById('tab-0').style.display = n===0 ? '' : 'none';
   document.getElementById('tab-1').style.display = n===1 ? '' : 'none';
-  document.getElementById('tab-2').style.display = n===2 ? '' : 'none';
   if (n===1) renderWeek();
-  if (n===2) renderCal();
 }
 
 // ════════════════════════════════════════
@@ -541,7 +480,7 @@ function renderWeek() {
   days.forEach((d, i) => {
     const isToday = todayCols[i];
     const label = d.toLocaleDateString('es-GT', { weekday:'short', day:'numeric' });
-    html += `<div class="wg-header day-col" style="${isToday?'background:var(--olive);':''}">${label}${isToday?' ·':''}</div>`;
+    html += `<div class="wg-header day-col${isToday?' today-col':''}">${label}${isToday?' · HOY':''}</div>`;
   });
 
   // Filas de pilotos
@@ -560,8 +499,8 @@ function renderWeek() {
   days.forEach((d, i) => {
     const isToday = todayCols[i];
     const label = d.toLocaleDateString('es-GT', { weekday:'long', day:'numeric', month:'short' });
-    cardsHtml += `<div class="week-day-card">
-      <div class="week-day-header${isToday ? ' today' : ''}">${cap(label)}${isToday ? ' · Hoy' : ''}</div>
+    cardsHtml += `<div class="week-day-card${isToday ? ' today-card' : ''}">
+      <div class="week-day-header${isToday ? ' today' : ''}">${cap(label)}${isToday ? '<span class="hoy-pill">HOY</span>' : ''}</div>
       <div class="week-day-body">
         ${pilotos.map(p => `
           <div class="week-pilot-row">
@@ -572,112 +511,6 @@ function renderWeek() {
     </div>`;
   });
   document.getElementById('week-cards').innerHTML = cardsHtml;
-}
-
-// ════════════════════════════════════════
-// PESTAÑA 3: CALENDARIO
-// ════════════════════════════════════════
-const WE_RAW_CAL = [
-  [2026,1,3,"WILSON","ALVARO"],[2026,1,10,"DOUGLAS","WILSON"],[2026,1,17,"ALDRIN","DOUGLAS"],[2026,1,24,"ALVARO","ALDRIN"],
-  [2026,1,31,"WILSON","ALVARO"],[2026,2,7,"DOUGLAS","WILSON"],[2026,2,14,"ALDRIN","DOUGLAS"],[2026,2,21,"ALVARO","ALDRIN"],
-  [2026,2,28,"WILSON","ALVARO"],[2026,3,7,"DOUGLAS","WILSON"],[2026,3,14,"ALDRIN","DOUGLAS"],[2026,3,21,"ALVARO","ALDRIN"],
-  [2026,3,28,"WILSON","ALVARO"],[2026,4,4,"DOUGLAS","WILSON"],[2026,4,11,"ALDRIN","DOUGLAS"],[2026,4,18,"ALVARO","ALDRIN"],
-  [2026,4,25,"WILSON","ALVARO"],[2026,5,2,"DOUGLAS","WILSON"],[2026,5,9,"ALDRIN","DOUGLAS"],[2026,5,16,"ALVARO","ALDRIN"],
-  [2026,5,23,"WILSON","ALVARO"],[2026,5,30,"DOUGLAS","WILSON"],[2026,6,6,"ALDRIN","DOUGLAS"],[2026,6,13,"ALVARO","ALDRIN"],
-  [2026,6,20,"WILSON","ALVARO"],[2026,6,27,"DOUGLAS","WILSON"],[2026,7,4,"ALDRIN","DOUGLAS"],[2026,7,11,"ALVARO","ALDRIN"],
-  [2026,7,18,"WILSON","ALVARO"],[2026,7,25,"DOUGLAS","WILSON"],[2026,8,1,"ALDRIN","DOUGLAS"],[2026,8,8,"ALVARO","ALDRIN"],
-  [2026,8,15,"WILSON","ALVARO"],[2026,8,22,"DOUGLAS","WILSON"],[2026,8,29,"ALDRIN","DOUGLAS"],[2026,9,5,"ALVARO","ALDRIN"],
-  [2026,9,12,"WILSON","ALVARO"],[2026,9,19,"DOUGLAS","WILSON"],[2026,9,26,"ALDRIN","DOUGLAS"],[2026,10,3,"ALVARO","ALDRIN"],
-  [2026,10,10,"WILSON","ALVARO"],[2026,10,17,"DOUGLAS","WILSON"],[2026,10,24,"ALDRIN","DOUGLAS"],[2026,10,31,"ALVARO","ALDRIN"],
-  [2026,11,7,"WILSON","ALVARO"],[2026,11,14,"DOUGLAS","WILSON"],[2026,11,21,"ALDRIN","DOUGLAS"],[2026,11,28,"ALVARO","ALDRIN"],
-  [2026,12,5,"WILSON","ALVARO"],[2026,12,12,"DOUGLAS","WILSON"],[2026,12,19,"ALDRIN","DOUGLAS"],[2026,12,26,"ALVARO","ALDRIN"],
-];
-
-const CAL_EVT = {}, CAL_SAT = {}, CAL_SUN = {};
-const DIAS_HDR_CAL = ['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado','Domingo'];
-function dkey(d){ return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`; }
-
-WE_RAW_CAL.forEach(([y,m,day,cubre,descansa])=>{
-  const sat=new Date(y,m-1,day), sun=new Date(y,m-1,day+1), fri=new Date(y,m-1,day-1);
-  const otros=["WILSON","DOUGLAS","ALDRIN","ALVARO"].filter(p=>p!==cubre).map(p=>({name:cap(p),turno:p===descansa?'descansa':'sabado'}));
-  CAL_SAT[dkey(sat)]={cubre:cap(cubre),otros};
-  CAL_SUN[dkey(sun)]={cubre:cap(cubre)};
-  const k=dkey(fri); if(!CAL_EVT[k]) CAL_EVT[k]=[]; CAL_EVT[k].push({text:`⏰ ${cap(descansa)}: sale 9PM`,cls:'ev-9pm'});
-});
-
-let calMonth = new Date().getMonth(), calYear = 2026;
-
-function changeMonthCal(dir){
-  calMonth+=dir;
-  if(calMonth>11){calMonth=0;calYear++;}
-  if(calMonth<0){calMonth=11;calYear--;}
-  renderCal();
-}
-
-function renderCal(){
-  document.getElementById('cal-month-label').textContent = MESES[calMonth].toUpperCase()+' '+calYear;
-  document.getElementById('cal-month-title').textContent = MESES[calMonth]+' '+calYear;
-  const today=new Date(); today.setHours(0,0,0,0);
-  const first=new Date(calYear,calMonth,1);
-  const dow=first.getDay(), offset=dow===0?-6:1-dow;
-  const start=new Date(first); start.setDate(first.getDate()+offset);
-  const grid=document.getElementById('cal-grid');
-  let html='';
-  DIAS_HDR_CAL.forEach((d,i)=>{ html+=`<div class="cal-header${i>=5?' weekend':''}">${d}</div>`; });
-  for(let i=0;i<42;i++){
-    const d=new Date(start); d.setDate(start.getDate()+i);
-    // Saltar semanas completas fuera del mes
-    if(i%7===0){
-      const weekDays=Array.from({length:7},(_,j)=>{const x=new Date(start);x.setDate(start.getDate()+i+j);return x;});
-      if(weekDays.every(x=>x.getMonth()!==calMonth)) { i+=6; continue; }
-    }
-    const isOther=d.getMonth()!==calMonth;
-    const isToday=d.getTime()===today.getTime();
-    const dow2=d.getDay(), isSat=dow2===6, isSun=dow2===0;
-    let cls='cal-day'; if(isOther) cls+=' other-month'; if(isToday) cls+=' cal-today';
-    const k=dkey(d);
-    let inner=`<div class="day-num">${d.getDate()}</div>`;
-    if(!isOther){
-      if(isSat&&CAL_SAT[k]){
-      const we=CAL_SAT[k];
-      inner+=`<div class="we-name${we.cubre.length > 8 ? ' long-name' : ''}">${we.cubre}</div>`+we.otros.map(p=>`<div class="we-pilot-row"><div class="we-pilot-name">${p.name}</div><div class="we-badge ${p.turno==='sabado'?'badge-sabado':'badge-descansa'}">${p.turno==='sabado'?'Sáb 5PM':'Descansa'}</div></div>`).join('');
-    } else if(isSun&&CAL_SUN[k]){
-      const sunCubre=CAL_SUN[k].cubre;
-      inner+=`<div class="we-name${sunCubre.length > 8 ? ' long-name' : ''}">${sunCubre}</div><div class="we-pilot-row"><div class="we-badge badge-turno">Turno completo</div></div>`;
-      } else {
-        inner+=(CAL_EVT[k]||[]).map(e=>`<div class="ev ${e.cls}">${e.text}</div>`).join('');
-      }
-    }
-    html+=`<div class="${cls}">${inner}</div>`;
-  }
-  grid.innerHTML=html;
-
-  // ── Vista vertical para móvil (lista día por día) ──
-  const DOWNAMES=['Domingo','Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
-  const daysInMonth=new Date(calYear,calMonth+1,0).getDate();
-  let listHtml='';
-  for(let day=1; day<=daysInMonth; day++){
-    const d=new Date(calYear,calMonth,day);
-    const isToday=d.getTime()===today.getTime();
-    const dow2=d.getDay(), isSat=dow2===6, isSun=dow2===0;
-    const k=dkey(d);
-    let body='';
-    if(isSat&&CAL_SAT[k]){
-      const we=CAL_SAT[k];
-      body=`<div class="cl-cubre">${we.cubre}<span class="cl-cubre-label">cubre el fin de semana</span></div>`+
-        we.otros.map(p=>`<div class="we-pilot-row"><div class="we-pilot-name">${p.name}</div><div class="we-badge ${p.turno==='sabado'?'badge-sabado':'badge-descansa'}">${p.turno==='sabado'?'Sáb 5PM':'Descansa'}</div></div>`).join('');
-    } else if(isSun&&CAL_SUN[k]){
-      body=`<div class="cl-cubre">${CAL_SUN[k].cubre}<span class="cl-cubre-label">turno completo</span></div>`;
-    } else {
-      const evts=CAL_EVT[k]||[];
-      body = evts.length ? evts.map(e=>`<div class="ev ${e.cls}">${e.text}</div>`).join('') : `<div class="cl-empty">Sin novedades</div>`;
-    }
-    listHtml+=`<div class="cal-list-day${isToday?' today':''}${isSat||isSun?' weekend':''}">
-      <div class="cl-date"><span class="cl-num">${day}</span><span class="cl-dow">${DOWNAMES[dow2]}</span></div>
-      <div class="cl-body">${body}</div>
-    </div>`;
-  }
-  document.getElementById('cal-list').innerHTML=listHtml;
 }
 
 // ════════════════════════════════════════
