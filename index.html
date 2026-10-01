@@ -154,7 +154,9 @@
   .h-7pm  { background: var(--green-light); color: var(--green); }
   .h-9pm  { background: var(--amber-light); color: var(--amber); }
   .h-9pm-special { background: #FFF0E0; color: var(--red); font-weight: 700; }
+  .h-6pm-special { background: #FFF0E0; color: var(--red); font-weight: 700; }
   .h-nocturno { background: var(--purple-light); color: var(--purple); }
+  .h-247 { background: var(--black); color: var(--amber); font-weight: 700; }
   .h-off  { background: var(--gray-light);  color: #bbb; font-style: italic; }
 
   /* ── Scroll horizontal para grillas anchas (escritorio/tablet) ── */
@@ -239,12 +241,12 @@
 </div>
 
 <div class="tabs-bar">
-  <button class="tab-btn active" onclick="switchTab(0)">📅 Fines de semana</button>
-  <button class="tab-btn"        onclick="switchTab(1)">🕐 Horarios semanales</button>
+  <button class="tab-btn active" onclick="switchTab(1)">🕐 Horarios semanales</button>
+  <button class="tab-btn" onclick="switchTab(0)">📅 Fines de semana</button>
 </div>
 
 <!-- ══ PESTAÑA 1: Fines de semana ══ -->
-<div id="tab-0">
+<div id="tab-0" style="display:none">
   <div class="nav-bar">
     <button class="nav-arrow" onclick="changeMonth(-1)">‹</button>
     <div class="nav-month" id="nav-month-label"></div>
@@ -258,7 +260,7 @@
   <div class="content" id="calendar-content"></div>
 </div>
 
-<div id="tab-1" style="display:none">
+<div id="tab-1">
   <div class="week-nav-bar">
     <button class="nav-arrow" onclick="changeWeek(-1)">‹</button>
     <div class="week-label" id="week-label"></div>
@@ -305,10 +307,21 @@ function viernesDescansaPiloto(friDate) {
   return descansa ? descansa.name : null;
 }
 
+// ¿Quién cubrió el fin de semana completo inmediatamente anterior a este lunes?
+// Ese piloto sale a las 6PM el lunes (en vez de su horario normal)
+function lunesCubrioFinde(monDate) {
+  const sun = new Date(monDate); sun.setDate(sun.getDate() - 1);
+  const we = WEEKENDS.find(w => {
+    const ws = new Date(w.sun.y, w.sun.m, w.sun.d);
+    return ws.getTime() === sun.getTime();
+  });
+  return we ? we.piloto : null;
+}
+
 // ════════════════════════════════════════
 // ESTADO UI
 // ════════════════════════════════════════
-let currentTab = 0;
+let currentTab = 1;
 let currentMonth = new Date().getMonth();
 let currentYear  = new Date().getFullYear();
 
@@ -438,8 +451,12 @@ function renderWeek() {
   // ¿Quién descansa este viernes?
   const descansaViernes = viernesDescansaPiloto(fri);
 
+  // ¿Quién cubrió el fin de semana completo anterior? (sale 6PM este lunes)
+  const lunesPiloto = lunesCubrioFinde(mon);
+
   // Pilotos y su lógica por día
   const pilotos = [
+    { name: 'Juan',          color: '#C8860A' },
     { name: 'Aldrin',        color: '#2E7D32' },
     { name: 'Douglas',       color: '#B03A2E' },
     { name: 'Osmar/Oliver', color: '#C8860A' },
@@ -448,7 +465,14 @@ function renderWeek() {
 
   function getSalida(piloto, date, dayIdx) {
     const isFri = dayIdx === 4;
+    const isMon = dayIdx === 0;
     const name = piloto.name.toUpperCase();
+
+    if (name === 'JUAN') return badge('h-247', '24/7');
+
+    if (isMon && lunesPiloto && name === lunesPiloto) {
+      return badge('h-6pm-special', '6PM ⚠');
+    }
 
     if (name === 'ALDRIN') {
       if (isFri && descansaViernes === 'ALDRIN') return badge('h-9pm-special', '9PM ⚠');
@@ -518,6 +542,7 @@ function renderWeek() {
 // INIT
 // ════════════════════════════════════════
 renderMonth();
+switchTab(1);
 </script>
 </body>
 </html>
