@@ -398,7 +398,7 @@ function renderMonth() {
       <div class="pilot-row">
         <div class="pilot-name">${cap(p.name)}</div>
         <div class="pilot-badge ${p.turno === 'sabado' ? 'badge-sabado' : 'badge-descanso'}">
-          ${p.turno === 'sabado' ? 'Sábado hasta 5PM' : 'Descansa'}
+          ${p.turno === 'sabado' ? (p.name.toUpperCase() === 'DOUGLAS' ? 'Sábado 8AM–6PM' : 'Sábado hasta 5PM') : 'Descansa'}
         </div>
       </div>`).join('');
 
