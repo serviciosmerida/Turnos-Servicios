@@ -156,6 +156,7 @@
   .h-9pm-special { background: #FFF0E0; color: var(--red); font-weight: 700; }
   .h-6pm-special { background: #FFF0E0; color: var(--red); font-weight: 700; }
   .h-nocturno { background: var(--purple-light); color: var(--purple); }
+  .h-8pm { background: var(--olive-light); color: var(--olive); }
   .h-247 { background: var(--black); color: var(--amber); font-weight: 700; }
   .h-off  { background: var(--gray-light);  color: #bbb; font-style: italic; }
 
@@ -290,7 +291,7 @@ const WEEKENDS = [{"sat":{"d":3,"m":0,"y":2026},"sun":{"d":4,"m":0,"y":2026},"pi
 const NOCTURNO_REF = new Date(2026, 5, 17); // mié 17 jun = Osmar/Oliver
 function nocturnoDelDia(date) {
   const diff = Math.round((date - NOCTURNO_REF) / 86400000);
-  return diff % 2 === 0 ? 'OSMAR/OLIVER' : 'ALVARO';
+  return diff % 2 === 0 ? 'JUAN' : 'ALVARO';
 }
 
 // ¿El viernes es el anterior al finde en que alguien descansa?
@@ -456,11 +457,11 @@ function renderWeek() {
 
   // Pilotos y su lógica por día
   const pilotos = [
-    { name: 'Juan',          color: '#C8860A' },
     { name: 'Aldrin',        color: '#2E7D32' },
-    { name: 'Douglas',       color: '#B03A2E' },
-    { name: 'Osmar/Oliver', color: '#C8860A' },
     { name: 'Alvaro',        color: '#6B3FA0' },
+    { name: 'Douglas',       color: '#B03A2E' },
+    { name: 'Juan',          color: '#C8860A' },
+    { name: 'Osmar/Oliver', color: '#C8860A' },
   ];
 
   function getSalida(piloto, date, dayIdx) {
@@ -468,7 +469,9 @@ function renderWeek() {
     const isMon = dayIdx === 0;
     const name = piloto.name.toUpperCase();
 
-    if (name === 'JUAN') return badge('h-247', '24/7');
+    if (name === 'JUAN') {
+      return nocturnoDelDia(date) === 'JUAN' ? badge('h-nocturno', 'Cubre') : badge('h-8pm', '8PM');
+    }
 
     if (isMon && lunesPiloto && name === lunesPiloto) {
       return badge('h-6pm-special', '6PM ⚠');
@@ -483,10 +486,7 @@ function renderWeek() {
       return badge('h-9pm', '9PM');
     }
 
-    if (name === 'OSMAR/OLIVER') {
-      const esNocturno = nocturnoDelDia(date) === 'OSMAR/OLIVER';
-      return esNocturno ? badge('h-nocturno', 'Cubre') : badge('h-off', 'Turno normal');
-    }
+    if (name === 'OSMAR/OLIVER') return badge('h-247', '24/7');
 
     if (name === 'ALVARO') {
       const esNocturno = nocturnoDelDia(date) === 'ALVARO';
